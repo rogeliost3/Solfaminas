@@ -1,4 +1,4 @@
-# single_page_js
+# Single Page Project
 Miembros :
     Kai Jauregi
     Iker
