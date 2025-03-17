@@ -1,10 +1,10 @@
 # Single Page Project
-Miembros :
-    Kai Jauregi
-    Iker
-    Ibon
-    Rogelio
+## Miembros 
+    - Iker Del Hierro
+    - Ibon Bautista
+    - Kai Jauregi
+    - Rogelio
 
-Tema :
+## Tema
 
-Resumen :
+## Resumen
