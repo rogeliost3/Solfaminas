@@ -1,0 +1,43 @@
+:root {
+    --text: white;
+    --background: black;
+    --strongPrimary: #c38a37;
+    --weakPrimary: #eabe71;
+    --strongSecondary: #2f6568;
+    --weakSecondary: #7d9ea2;
+    --hover: lightgray;
+  }
+  
+  
+  body {
+    font-family: "Roboto Flex", sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    margin: 0px;
+  }
+
+  main{
+    position: absolute;
+    top: 25%;
+    left: 25%;
+  }
+
+  section#choose_game{
+    background-color: red;
+    text-align: center;
+  }
+
+  section#difficulty{
+    background-color: green;
+    text-align: center;
+  }
+
+  section#game{
+    background-color: yellow;
+    text-align: center;
+  }
+
+  section#replay{
+    background-color: blue;
+    text-align: center;
+  }
