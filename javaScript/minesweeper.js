@@ -1,78 +1,112 @@
-const FLAG = "x",
-    BOMB = "o",
-    ONE = "1",
-    TWO = "2",
-    THREE = "3";
+const CELL_CLOSED = 0,
+    CELL_OPENED = 1,
+    CELL_MARKED = 2;
 
-const game = {
-    "start": "3-5",
-    "width": 9,
-    "height": 9,
-    "board": [
-        ["o", "o", "1", "x", "3", "x", "2", "x", "2"],
-        ["1", "1", "1", "2", "x", "2", "2", "2", "x"],
-        ["x", "1", "o", "1", "1", "1", "o", "1", "1"],
-        ["1", "1", "o", "o", "o", "o", "o", "o", "o"],
-        ["o", "o", "o", "1", "1", "1", "o", "o", "o"],
-        ["2", "2", "1", "1", "x", "1", "o", "o", "o"],
-        ["x", "x", "2", "2", "1", "1", "o", "1", "1"],
-        ["x", "4", "x", "1", "o", "o", "o", "1", "x"],
-        ["1", "2", "1", "1", "o", "o", "o", "1", "1"]
-    ],
-    "mines": 12
-}
+// const dataAPI = { // Estructura que devuelve la API, se hara a traves de una funcion
+//     "start": "3-5",
+//     "width": 9,
+//     "height": 9,
+//     "board": [
+//         ["o", "o", "1", "x", "3", "x", "2", "x", "2"],
+//         ["1", "1", "1", "2", "x", "2", "2", "2", "x"],
+//         ["x", "1", "o", "1", "1", "1", "o", "1", "1"],
+//         ["1", "1", "o", "o", "o", "o", "o", "o", "o"],
+//         ["o", "o", "o", "1", "1", "1", "o", "o", "o"],
+//         ["2", "2", "1", "1", "x", "1", "o", "o", "o"],
+//         ["x", "x", "2", "2", "1", "1", "o", "1", "1"],
+//         ["x", "4", "x", "1", "o", "o", "o", "1", "x"],
+//         ["1", "2", "1", "1", "o", "o", "o", "1", "1"]
+//     ],
+//     "mines": 12
+// }
+
 
 class Minesweeper {
-    constructor(board) {
-        this.start = board["start"];
-        this.width = board["width"];
-        this.height = board["height"];
-        this.mines = board["mines"];
-        this.board = board["board"];
+    #boardState; // array de estado de las casillas del tablero 
+
+    constructor() {
+        this.startx = 0;
+        this.starty = 0;
+        this.width = 0;
+        this.height = 0;
+        this.mines = 0;
+        this.board = [];
     }
 
-    drawFlag() {
-        return "x";
+    createNewGame() {
+        const dataAPI = this.#callNewGameAPI();//llamada a la API por un nuevo juego     
+        this.startx = dataAPI["start"][0];//Revisar qué significa 2-5 en la API
+        this.starty = dataAPI["start"][2];
+        this.width = dataAPI["width"];
+        this.height = dataAPI["height"];
+        this.mines = dataAPI["mines"];
+        this.board = dataAPI["board"];
+        this.#initBoardState();
     }
 
-    drawOne() {
-        return "1";
+    #initBoardState() { // Inicia el estado del tablero a todos cerrados
+        this.#boardState = new Array(this.height);
+        for (let y = 0; y < this.height; y++) {
+            this.#boardState[y] = new Array(this.width).fill(CELL_OPENED);
+        }
+        this.openCell(this.starty, this.startx); //abrir la celda inicial
     }
 
-    drawTwo() {
-        return "2";
+    openCell(y, x) { // abrir y procesar celdas alrededor de x,y, devolver true si hay bomba, false si no
+        return false;
     }
 
-    drawThree() {
-        return "3";
+    #callNewGameAPI() {
+        const dataTemp = { // Estructura que devuelve la API, se hara a traves de una funcion
+            "start": "3-5",
+            "width": 9,
+            "height": 9,
+            "board": [
+                ["o", "o", "1", "x", "3", "x", "2", "x", "2"],
+                ["1", "1", "1", "2", "x", "2", "2", "2", "x"],
+                ["x", "1", "o", "1", "1", "1", "o", "1", "1"],
+                ["1", "1", "o", "o", "o", "o", "o", "o", "o"],
+                ["o", "o", "o", "1", "1", "1", "o", "o", "o"],
+                ["2", "2", "1", "1", "x", "1", "o", "o", "o"],
+                ["x", "x", "2", "2", "1", "1", "o", "1", "1"],
+                ["x", "4", "x", "1", "o", "o", "o", "1", "x"],
+                ["1", "2", "1", "1", "o", "o", "o", "1", "1"]
+            ],
+            "mines": 12
+        }
+        return dataTemp;
     }
 
-    drawBomb() {
-        return "o";
+    drawCell(y, x) { //de momento no dibuja nada, solo devuelve una string para consola
+        let content = this.board[y][x];
+        let state = this.#boardState[y][x];
+        let temp = ""; // temporalmente modo texto
+        //posicionarse en y,x
+        switch (state) {
+            case CELL_CLOSED: temp = "   "; //dibujar la celda cerrada
+                break;
+            case CELL_MARKED: temp = " F "; //dibujar la bandera  
+                break;
+            case CELL_OPENED: temp = " " + content + " "; //dibujar el numero         
+        }
+        return temp;
     }
 
     drawBoard() {
-        for (let r = 0; r < this.height; r++) {
-            let rowSt = "";
-            for (let c = 0; c < this.width; c++) {
-                let elem = this.board[r][c];
-                switch (elem) {
-                    case FLAG: rowSt += this.drawFlag();
-                        break;
-                    case BOMB: rowSt += this.drawBomb();
-                        break;
-                    case ONE: rowSt += this.drawOne();
-                        break;
-                    case TWO: rowSt += this.drawTwo();
-                        break;
-                    case THREE: rowSt += this.drawThree();
-                        break;
-                }
+        for (let y = 0; y < this.height; y++) {
+            let temp = "";
+            for (let x = 0; x < this.width; x++) {
+                //this.drawCell(x,y); Se hara cuando se pueda, de momento modo texto
+                temp += this.drawCell(y,x);
             }
-            console.log(rowSt); //draw the row!
+            console.log(temp); //de momento lo mostramos en modo texto
         }
     }
+
 }
 
-const ms = new Minesweeper(game);
+
+
+const ms = new Minesweeper();
+ms.createNewGame();
 ms.drawBoard();
