@@ -25,7 +25,7 @@ const data = {
     ]
 }
 //Get the canvas
-var canvas = document.getElementById('sudoku');
+var canvas = document.getElementById('suodku');
 //Change canvas background
 canvas.style.backgroundColor = "#000000";
 //Set canvas context to 2d
