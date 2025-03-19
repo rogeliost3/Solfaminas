@@ -1,13 +1,14 @@
 import { fetchManager } from "./api.js"
 
 class Game {
-    constructor(name, fetchManager,gameType) {
+    constructor(name,boxColor = "white", textColor = "black") {
+        this.boxColor = boxColor;
+        this.textColor = textColor;
         //Set Canvas
         this.canvas = document.getElementById(name);
-        this.canvas.style.backgroundColor = "#FF0000";
+
         //Set Context of Canvas
         this.context = this.canvas.getContext('2d');
-        this.context.font = "25px Arial";
 
         this.canvas.width = window.innerHeight / 2;
         this.canvas.height = window.innerHeight / 2;
@@ -21,25 +22,30 @@ class Game {
         this.canvas.width = (window.innerHeight / 2) + this.offset;
         this.canvas.height = (window.innerHeight / 2) + this.offset;
 
+        
+    }
+
+    initGame(fetchManager,gameType) {
         fetchManager.getGameData(gameType).then((fetchData) => {
             this.data = fetchData;
             this.generateGame();
         });
     }
 
-
     generateGame() {
-        for (let i = 0; i < 9; i++) {
-            for (let j = 0; j < 9; j++) {
+        for (let width = 0; width < 9; width++) {
+            for (let height = 0; height < 9; height++) {
 
-                this.context.fillStyle = "white";
+                this.context.fillStyle = this.boxColor;
                 this.context.fillRect(
-                    (this.boxSize + this.offset) * i + this.offset,
-                    (this.boxSize + this.offset) * j + this.offset,
+                    (this.boxSize + this.offset) * width + this.offset,
+                    (this.boxSize + this.offset) * height + this.offset,
                     this.boxSize, this.boxSize);
             }
         }
     }
 }
+
+export {Game};
 
 //let sudoku = new Game("sudoku",fetchManager,fetchManager.gameTypes.Sudoku);
