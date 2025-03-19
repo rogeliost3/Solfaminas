@@ -1,6 +1,7 @@
-const CELL_CLOSED = 0,
-    CELL_OPENED = 1,
-    CELL_MARKED = 2;
+const   CELL_CLOSED = 0,
+        CELL_OPENED = 1,
+        CELL_MARKED = 2;
+        BASE_URL_API="https://shadify.yurace.pro/api/minesweeper/generator?start=4-5";
 
 // const dataAPI = { // Estructura que devuelve la API, se hara a traves de una funcion
 //     "start": "3-5",
@@ -33,18 +34,24 @@ class Minesweeper {
         this.board = [];
     }
 
-    createNewGame() {
-        const dataAPI = this.#callNewGameAPI();//llamada a la API por un nuevo juego     
-        this.startx = dataAPI["start"][0];//Revisar qué significa 2-5 en la API
-        this.starty = dataAPI["start"][2];
+    async createNewGame() {
+        console.log("--Creando nuevo juego");
+        const dataAPI = await this.#callNewGameAPI();//llamada a la API por un nuevo juego  
+        let initCoords=dataAPI["start"];   
+        let index=initCoords.indexOf("-");
+        this.startx = initCoords.substring(0,index);
+        this.starty = initCoords.substring(index+1);
         this.width = dataAPI["width"];
         this.height = dataAPI["height"];
         this.mines = dataAPI["mines"];
         this.board = dataAPI["board"];
+        // console.log(this.startx+" "+this.starty+" "+this.width+" "+this.height+" "+this.board);
         this.#initBoardState();
     }
 
-    #initBoardState() { // Inicia el estado del tablero a todos cerrados
+    async #initBoardState() { // Inicia el estado del tablero a todos cerrados
+        console.log("--Inicializando estado del tablero");
+        console.log("tamaño: "+this.width+"/"+this.height);
         this.#boardState = new Array(this.height);
         for (let y = 0; y < this.height; y++) {
             this.#boardState[y] = new Array(this.width).fill(CELL_OPENED);
@@ -56,8 +63,8 @@ class Minesweeper {
         return false;
     }
 
-    #callNewGameAPI() {
-        const dataTemp = { // Estructura que devuelve la API, se hara a traves de una funcion
+    async #callNewGameAPI() {
+        /*let data = { // Estructura que devuelve la API, se hara a traves de una funcion
             "start": "3-5",
             "width": 9,
             "height": 9,
@@ -73,8 +80,24 @@ class Minesweeper {
                 ["1", "2", "1", "1", "o", "o", "o", "1", "1"]
             ],
             "mines": 12
+        }*/
+        
+        // construir url de busqueda
+        const finalUrl=new URL(BASE_URL_API);
+
+        // console.log("url: "+finalUrl.toString()); 
+
+        try {
+            const response = await fetch(finalUrl.toString());
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.log("error: "+error);
+            return null;
         }
-        return dataTemp;
     }
 
     drawCell(y, x) { //de momento no dibuja nada, solo devuelve una string para consola
@@ -98,15 +121,17 @@ class Minesweeper {
             for (let x = 0; x < this.width; x++) {
                 //this.drawCell(x,y); Se hara cuando se pueda, de momento modo texto
                 temp += this.drawCell(y,x);
+                console.log(temp); //de momento lo mostramos en modo texto
             }
-            console.log(temp); //de momento lo mostramos en modo texto
         }
     }
 
 }
 
+async function main () {
+    const ms = new Minesweeper();
+    await ms.createNewGame();
+    ms.drawBoard();
+}
 
-
-const ms = new Minesweeper();
-ms.createNewGame();
-ms.drawBoard();
+main();
