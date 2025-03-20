@@ -26,11 +26,29 @@
 
   #sudoku:hover, #minesweeper:hover, #flags:hover{
     background-color: var(--weakPrimary);
-    cursor: pointer;;
+    cursor: pointer;
+  }
+ 
+  .gamebox {
+    background-color: var(--weakPrimary);
+    border: none;
+    color: var(--strongSecondary);
+    border-radius: 3em;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'TT Chocolates Trial Medium';
+    width: 20%;
+    padding: 3%;
+  }
+
+  #sudoku {
+    background-color: black;
+    text-align: center;
+    width: 550em;
   }
 
   #game{
-    background-color: yellow;
+    background-color: var(--strongPrimary);
     text-align: center;
   }
 
