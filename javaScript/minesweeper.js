@@ -8,14 +8,16 @@ const CELL_CLOSED = 0,
 
 
 class Minesweeper extends Game {
-    #boardState; // array de estado de las casillas del tablero 
+
+    // array de estado de las casillas del tablero 
+    #boardState; 
+
     constructor(name, fetchManager) {
         super(name);
         this.initGame(fetchManager, fetchManager.gameTypes.Minesweeper);
     }
 
     generateGame() {
-        console.log("--Creando nuevo juego");
         let initCoords = this.data.start;
         let index = initCoords.indexOf("-");
         this.startx = parseInt(initCoords.substring(0, index))-1; // posicion inicial desde 1 a width, restamos 1 para homogeneizar
@@ -30,8 +32,6 @@ class Minesweeper extends Game {
 
     // Inicia el estado del tablero a todos cerrados
     async #initMinesweeperBoard() { 
-        console.log("--Inicializando estado del tablero");
-        console.log("tamaño: " + this.width + "/" + this.height);
         this.#boardState = new Array(this.height);
         for (let y = 0; y < this.height; y++) {
             this.#boardState[y] = new Array(this.width).fill(CELL_CLOSED);
@@ -55,9 +55,9 @@ class Minesweeper extends Game {
     openCell(y, x) { 
         let bomb = false;
         if (this.getStateCell(y, x) == CELL_CLOSED) {
-            this.setStateCell(y, x, CELL_OPENED);
-            for (let posy = y - 1; posy < y + 2; posy++) {
-                for (let posx = x - 1; posx < x + 2; posx++) {
+            // this.setStateCell(y, x, CELL_OPENED);
+            for (let posy = y - 1; posy <= y + 1; posy++) {
+                for (let posx = x - 1; posx <= x + 1; posx++) {
                     if (posx > -1 && posy > -1 && posx < this.width && posy < this.height) {
                         if (this.getStateCell(posy, posx) == CELL_CLOSED) {
                             this.setStateCell(posy, posx, CELL_OPENED);
@@ -80,27 +80,7 @@ class Minesweeper extends Game {
         }
     }
 
-    /*async #callNewGameAPI() {
-
-    // construir url de busqueda
-    const finalUrl = new URL(BASE_URL_API);
-
-    // console.log("url: "+finalUrl.toString()); 
-
-    try {
-        const response = await fetch(finalUrl.toString());
-        if (!response.ok) {
-            throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log("error: " + error);
-        return null;
-    }
-}*/
-
-    drawCell(y, x) { //de momento no dibuja nada, solo devuelve una string para consola
+    drawCell(y, x) {
         this.context.font = "25px Arial";
         let color=this.boxColor;
         if (y==this.starty && x==this.startx) {
@@ -143,43 +123,6 @@ class Minesweeper extends Game {
         }
     }
 
-    /*drawBoardFromApi() {
-        this.context.font = "25px Arial";
-        for (let width = 0; width < 9; width++) {
-            for (let height = 0; height < 9; height++) {
-
-                this.context.fillStyle = this.boxColor;
-                this.context.fillRect((
-                    this.boxSize + this.offset) * width + this.offset, 
-                    (this.boxSize + this.offset) * height + this.offset, this.boxSize, this.boxSize);
-
-                this.context.fillStyle = this.textColor;
-                if (this.board[height][width] != 0) {
-                    this.context.fillText(
-                        this.board[height][width], 
-                        (this.boxSize + this.offset) * width + (this.boxSize / 2), 
-                        (this.boxSize + this.offset) * height + (this.boxSize));
-                }
-            }
-        }
-    }*/
-
 }
+
 let minesweeper = new Minesweeper("minesweeperCanvas",fetchManager);
-// async function main() {
-//     const ms = new Minesweeper();
-//     await ms.createNewMinesweeper();
-//     ms.drawBoard();
-
-//     setTimeout(() => {
-
-//         if (ms.openCell(2, 3)) {
-//             console.log("BOMBA!");
-//         } else
-//             console.log("VACIO");
-//         ms.drawBoard();
-
-//     }, 3000);
-// }
-
-// main();
