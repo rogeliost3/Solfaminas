@@ -13,13 +13,6 @@ class Minesweeper extends Game {
     constructor(name, fetchManager) {
         super(name);
         this.initGame(fetchManager, fetchManager.gameTypes.Minesweeper);
-
-        this.startx = 0;
-        this.starty = 0;
-        this.width = 0;
-        this.height = 0;
-        this.mines = 0;
-        this.board = [];
     }
 
     generateGame() {
@@ -35,6 +28,7 @@ class Minesweeper extends Game {
         this.board = this.data["board"];
         // console.log(this.startx+" "+this.starty+" "+this.width+" "+this.height+" "+this.board);
         this.#initMinesweeperBoard();
+        this.drawBoardFromApi();
     }
 
     async #initMinesweeperBoard() { // Inicia el estado del tablero a todos cerrados
@@ -132,22 +126,43 @@ class Minesweeper extends Game {
         }
     }
 
+    drawBoardFromApi() {
+        this.context.font = "25px Arial";
+        for (let width = 0; width < 9; width++) {
+            for (let height = 0; height < 9; height++) {
+
+                this.context.fillStyle = this.boxColor;
+                this.context.fillRect((
+                    this.boxSize + this.offset) * width + this.offset, 
+                    (this.boxSize + this.offset) * height + this.offset, this.boxSize, this.boxSize);
+
+                this.context.fillStyle = this.textColor;
+                if (this.board[height][width] != 0) {
+                    this.context.fillText(
+                        this.board[height][width], 
+                        (this.boxSize + this.offset) * width + (this.boxSize / 2), 
+                        (this.boxSize + this.offset) * height + (this.boxSize));
+                }
+            }
+        }
+    }
+
 }
+let minesweeper = new Minesweeper("minesweeperCanvas",fetchManager);
+// async function main() {
+//     const ms = new Minesweeper();
+//     await ms.createNewMinesweeper();
+//     ms.drawBoard();
 
-async function main() {
-    const ms = new Minesweeper();
-    await ms.createNewMinesweeper();
-    ms.drawBoard();
+//     setTimeout(() => {
 
-    setTimeout(() => {
+//         if (ms.openCell(2, 3)) {
+//             console.log("BOMBA!");
+//         } else
+//             console.log("VACIO");
+//         ms.drawBoard();
 
-        if (ms.openCell(2, 3)) {
-            console.log("BOMBA!");
-        } else
-            console.log("VACIO");
-        ms.drawBoard();
+//     }, 3000);
+// }
 
-    }, 3000);
-}
-
-main();
+// main();
