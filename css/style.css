@@ -8,7 +8,6 @@
     --hover: lightgray;
   }
   
-  
   body {
     font-family: "Roboto Flex", sans-serif;
     background-color: var(--background);
@@ -29,45 +28,80 @@
     background-color: var(--weakPrimary);
     cursor: pointer;
   }
-  section#difficulty{
+ 
+  .gamebox {
+    background-color: var(--weakPrimary);
+    border: none;
+    color: var(--strongSecondary);
+    border-radius: 3em;
+    text-align: center;
+    text-decoration: none;
+    font-family: 'TT Chocolates Trial Medium';
+    width: 20%;
+    padding: 3%;
+  }
+
+  #sudoku {
+    background-color: black;
+    text-align: center;
+    width: 550em;
+  }
+
+  #game{
+    background-color: var(--strongPrimary);
+    text-align: center;
+  }
+
+  #difficultysudoku {
+    background-color: var(--weakPrimary);
+    cursor: pointer;
+  }
+
+  #difficultyminesweeper {
+    background-color: var(--weakPrimary);
+    cursor: pointer;kerning: auto;
+  }
+
+  #difficultyflags {
+    background-color: var(--weakPrimary);
+    cursor: pointer;
+  }
+
+  #difficulty{
     background-color: green;
     text-align: center;
   }
 
-  section#game{
-    background-color: yellow;
-    text-align: center;
-  }
-
-  section#replay{
+  #replay{
     background-color: blue;
     text-align: center;
   }
 
-footer {
-  background-color: var(--strongPrimary);
-  display: flex;
-  flex-direction:row;
-  align-items: center;
-  width: 100%;
-  padding: 1%;
-  margin: 2%;
-  bottom: 0;
+  footer {
+    background-color: var(--strongPrimary);
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    width: 100%;
+    padding: 1%;
+    margin: 2%;
+    bottom: 0;
+    
+  }
+  .reglas-varias {
+    list-style: none;
+    padding-inline: 30%;
+    text-align: center;
+    margin: 1.5%;
+  }
   
-}
-.reglas-varias {
-  list-style: none;
-  padding-inline: 30%;
-  text-align: center;
-  margin: 1.5%;
-}
-
-.icons {
-  display: flex;
-  justify-content: space-between;
-  margin: 2%;
+  .icons {
+    display: flex;
+    justify-content: space-between;
+    margin: 2%;
+    
+  }
   
-}
 @media  (min-width: 1400px) {
   #sudoku, #minesweeper, #flags{
 
@@ -81,16 +115,17 @@ footer {
     color: var(--text);
 }
 }
+
 @media  (max-width:1400px) and (min-width: 360px) {
-  /*meter aquí la parte responsive*/
   #sudoku, #minesweeper, #flags{
     
     width: 10%;
-    padding:10%;
+    padding:2%;
     margin: 5%;
-    font-size: 0.1em;
+    font-size: 1.2em;
+    text-align: center;
     border:none;
-    border-radius: 5em;
+    border-radius: 30em;
     background-color: var(--strongPrimary);
     color: var(--text);
   }
