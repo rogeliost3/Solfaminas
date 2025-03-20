@@ -43,24 +43,24 @@ class Minesweeper extends Game {
         return this.board[y][x];
     }
 
-    getStateCell(y, x) {
+    getCellState(y, x) {
         return this.#boardState[y][x];
     }
 
-    setStateCell(y, x, state) {
+    setCellState(y, x, state) {
         this.#boardState[y][x] = state;
     }
 
     // abrir y procesar celdas alrededor de x,y, devolver true si hay bomba, false si no
     openCell(y, x) { 
         let bomb = false;
-        if (this.getStateCell(y, x) == CELL_CLOSED) {
-            // this.setStateCell(y, x, CELL_OPENED);
+        if (this.getCellState(y, x) == CELL_CLOSED) {
+            // this.setCellState(y, x, CELL_OPENED);
             for (let posy = y - 1; posy <= y + 1; posy++) {
                 for (let posx = x - 1; posx <= x + 1; posx++) {
                     if (posx > -1 && posy > -1 && posx < this.width && posy < this.height) {
-                        if (this.getStateCell(posy, posx) == CELL_CLOSED) {
-                            this.setStateCell(posy, posx, CELL_OPENED);
+                        if (this.getCellState(posy, posx) == CELL_CLOSED) {
+                            this.setCellState(posy, posx, CELL_OPENED);
                             if (this.getCellContent(y, x) == "x") {
                                 bomb = true;
                             }
@@ -72,11 +72,18 @@ class Minesweeper extends Game {
         return bomb;
     }
 
+    contarCeldasPendientes() {
+        for (let y=0;y<this.height;y++) {
+            for (let x=0;x<this.width;x++) {
+                //si esta cerrada y tiene bomb no se cuenta
+            }
+        }
+    }
     switchCellMark(y, x) {
-        if (this.getStateCell(y, x)==CELL_MARKED) {
-            this.setStateCell(CELL_CLOSED)
+        if (this.getCellState(y, x)==CELL_MARKED) {
+            this.setCellState(CELL_CLOSED)
         } else {
-            this.setStateCell(CELL_MARKED);
+            this.setCellState(CELL_MARKED);
         }
     }
 
@@ -126,3 +133,21 @@ class Minesweeper extends Game {
 }
 
 let minesweeper = new Minesweeper("minesweeperCanvas",fetchManager);
+
+/* que deberia tener el loop
+gameover =enjuego
+mientras gameover=enjuego
+    si click
+        calcular posicion x,y de celda
+        si leftclick 
+            si abrirCelda(x,y)==bomb
+                gameover=perdedor
+            sino 
+                si CeldasRestantes=0
+                    gameover=ganador
+        si rightclick
+            marcarCelda(x,y)
+fin mientras
+*/
+      
+      
