@@ -1,31 +1,19 @@
-const   CELL_CLOSED = 0,
-        CELL_OPENED = 1,
-        CELL_MARKED = 2;
-        BASE_URL_API="https://shadify.yurace.pro/api/minesweeper/generator?start=4-5";
+import { fetchManager } from "./api.js"
+import { Game } from "./game.js"
 
-// const dataAPI = { // Estructura que devuelve la API, se hara a traves de una funcion
-//     "start": "3-5",
-//     "width": 9,
-//     "height": 9,
-//     "board": [
-//         ["o", "o", "1", "x", "3", "x", "2", "x", "2"],
-//         ["1", "1", "1", "2", "x", "2", "2", "2", "x"],
-//         ["x", "1", "o", "1", "1", "1", "o", "1", "1"],
-//         ["1", "1", "o", "o", "o", "o", "o", "o", "o"],
-//         ["o", "o", "o", "1", "1", "1", "o", "o", "o"],
-//         ["2", "2", "1", "1", "x", "1", "o", "o", "o"],
-//         ["x", "x", "2", "2", "1", "1", "o", "1", "1"],
-//         ["x", "4", "x", "1", "o", "o", "o", "1", "x"],
-//         ["1", "2", "1", "1", "o", "o", "o", "1", "1"]
-//     ],
-//     "mines": 12
-// }
+const CELL_CLOSED = 0,
+    CELL_OPENED = 1,
+    CELL_MARKED = 2;
+// BASE_URL_API = "https://shadify.yurace.pro/api/minesweeper/generator?start=4-5";
 
 
-class Minesweeper {
+class Minesweeper extends Game {
     #boardState; // array de estado de las casillas del tablero 
 
-    constructor() {
+    constructor(name, fetchManager) {
+        super(name);
+        this.initGame(fetchManager, fetchManager.gameTypes.Minesweeper);
+
         this.startx = 0;
         this.starty = 0;
         this.width = 0;
@@ -34,79 +22,96 @@ class Minesweeper {
         this.board = [];
     }
 
-    async createNewGame() {
+    generateGame() {
         console.log("--Creando nuevo juego");
-        const dataAPI = await this.#callNewGameAPI();//llamada a la API por un nuevo juego  
-        let initCoords=dataAPI["start"];   
-        let index=initCoords.indexOf("-");
-        this.startx = initCoords.substring(0,index);
-        this.starty = initCoords.substring(index+1);
-        this.width = dataAPI["width"];
-        this.height = dataAPI["height"];
-        this.mines = dataAPI["mines"];
-        this.board = dataAPI["board"];
+        //const this.data = await this.#callNewGameAPI();//llamada a la API por un nuevo juego  
+        let initCoords = this.data["start"];
+        let index = initCoords.indexOf("-");
+        this.startx = parseInt(initCoords.substring(0, index)); // posicion inicial desde 1 a width
+        this.starty = parseInt(initCoords.substring(index + 1)); // posicion inicial desde 1 a height
+        this.width = this.data["width"] - 1;
+        this.height = this.data["height"] - 1;
+        this.mines = this.data["mines"];
+        this.board = this.data["board"];
         // console.log(this.startx+" "+this.starty+" "+this.width+" "+this.height+" "+this.board);
-        this.#initBoardState();
+        this.#initMinesweeperBoard();
     }
 
-    async #initBoardState() { // Inicia el estado del tablero a todos cerrados
+    async #initMinesweeperBoard() { // Inicia el estado del tablero a todos cerrados
         console.log("--Inicializando estado del tablero");
-        console.log("tamaño: "+this.width+"/"+this.height);
+        console.log("tamaño: " + this.width + "/" + this.height);
         this.#boardState = new Array(this.height);
         for (let y = 0; y < this.height; y++) {
-            this.#boardState[y] = new Array(this.width).fill(CELL_OPENED);
+            this.#boardState[y] = new Array(this.width).fill(CELL_CLOSED);
         }
         this.openCell(this.starty, this.startx); //abrir la celda inicial
     }
 
+    getCellContent(y, x) {
+        return this.board[y][x];
+    }
+
+    getStateCell(y, x) {
+        return this.#boardState[y][x];
+    }
+
+    setStateCell(y, x, state) {
+        this.#boardState[y][x] = state;
+    }
+
     openCell(y, x) { // abrir y procesar celdas alrededor de x,y, devolver true si hay bomba, false si no
-        return false;
-    }
-
-    async #callNewGameAPI() {
-        /*let data = { // Estructura que devuelve la API, se hara a traves de una funcion
-            "start": "3-5",
-            "width": 9,
-            "height": 9,
-            "board": [
-                ["o", "o", "1", "x", "3", "x", "2", "x", "2"],
-                ["1", "1", "1", "2", "x", "2", "2", "2", "x"],
-                ["x", "1", "o", "1", "1", "1", "o", "1", "1"],
-                ["1", "1", "o", "o", "o", "o", "o", "o", "o"],
-                ["o", "o", "o", "1", "1", "1", "o", "o", "o"],
-                ["2", "2", "1", "1", "x", "1", "o", "o", "o"],
-                ["x", "x", "2", "2", "1", "1", "o", "1", "1"],
-                ["x", "4", "x", "1", "o", "o", "o", "1", "x"],
-                ["1", "2", "1", "1", "o", "o", "o", "1", "1"]
-            ],
-            "mines": 12
-        }*/
-        
-        // construir url de busqueda
-        const finalUrl=new URL(BASE_URL_API);
-
-        // console.log("url: "+finalUrl.toString()); 
-
-        try {
-            const response = await fetch(finalUrl.toString());
-            if (!response.ok) {
-                throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
+        let bomb = false;
+        if (this.getStateCell(y, x) == CELL_CLOSED) {
+            this.setStateCell(y, x, CELL_OPENED);
+            for (let posy = y - 1; posy < y + 2; posy++) {
+                for (let posx = x - 1; posx < x + 2; posx++) {
+                    if (posx > -1 && posy > -1 && posx < this.width && posy < this.height) {
+                        if (this.getStateCell(posy, posx) == CELL_CLOSED) {
+                            this.setStateCell(posy, posx, CELL_OPENED);
+                            if (this.getCellContent(y, x) == "x") {
+                                bomb = true;
+                            }
+                        }
+                    }
+                }
             }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.log("error: "+error);
-            return null;
         }
+        return bomb;
     }
+
+    markCell(y, x) {
+        /*
+        si la celda esta cerrada
+            cambiar estado de la celda a marked */
+    }
+
+    /*async #callNewGameAPI() {
+
+    // construir url de busqueda
+    const finalUrl = new URL(BASE_URL_API);
+
+    // console.log("url: "+finalUrl.toString()); 
+
+    try {
+        const response = await fetch(finalUrl.toString());
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("error: " + error);
+        return null;
+    }
+}*/
 
     drawCell(y, x) { //de momento no dibuja nada, solo devuelve una string para consola
-        let content = this.board[y][x];
-        let state = this.#boardState[y][x];
-        let temp = ""; // temporalmente modo texto
+        let content = this.getCellContent(y, x);//board[y][x];
+        let state = this.getStateCell(y, x);
+        let temp = ""; // TODO temporalmente modo texto
         //posicionarse en y,x
         switch (state) {
-            case CELL_CLOSED: temp = "   "; //dibujar la celda cerrada
+            case CELL_CLOSED: temp = " . "; //dibujar la celda cerrada
                 break;
             case CELL_MARKED: temp = " F "; //dibujar la bandera  
                 break;
@@ -116,22 +121,33 @@ class Minesweeper {
     }
 
     drawBoard() {
+        console.log("x: " + this.startx + " y:" + this.starty);
         for (let y = 0; y < this.height; y++) {
             let temp = "";
             for (let x = 0; x < this.width; x++) {
-                //this.drawCell(x,y); Se hara cuando se pueda, de momento modo texto
-                temp += this.drawCell(y,x);
-                console.log(temp); //de momento lo mostramos en modo texto
+                //this.drawCell(x,y); TODO Se hara cuando se pueda, de momento modo texto
+                temp += this.drawCell(y, x);
             }
+            console.log(temp); //de momento lo mostramos en modo texto
         }
     }
 
 }
 
-async function main () {
+async function main() {
     const ms = new Minesweeper();
-    await ms.createNewGame();
+    await ms.createNewMinesweeper();
     ms.drawBoard();
+
+    setTimeout(() => {
+
+        if (ms.openCell(2, 3)) {
+            console.log("BOMBA!");
+        } else
+            console.log("VACIO");
+        ms.drawBoard();
+
+    }, 3000);
 }
 
 main();
