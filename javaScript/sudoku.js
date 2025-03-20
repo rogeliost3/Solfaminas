@@ -1,32 +1,51 @@
 import { fetchManager } from "./api.js"
-import { Game } from "./game.js"
+import { Game, Cell } from "./game.js"
 class Sudoku extends Game {
     constructor(name, fetchManager) {
         super(name);
         this.initGame(fetchManager, fetchManager.gameTypes.Sudoku);
+        this.canvasFather = document.getElementById("playsudoku");
+        this.xTest = 0;
+        this.yTest = 0;
     }
 
     generateGame() {
-        this.context.font = "25px Arial";
-        for (let width = 0; width < 9; width++) {
-            for (let height = 0; height < 9; height++) {
-
-                this.context.fillStyle = this.boxColor;
-                this.context.fillRect((
-                    this.boxSize + this.offset) * width + this.offset, 
-                    (this.boxSize + this.offset) * height + this.offset, this.boxSize, this.boxSize);
-
-                this.context.fillStyle = this.textColor;
-                if (this.data.task[height][width] != 0) {
-                    this.context.fillText(
-                        this.data.task[height][width], 
-                        (this.boxSize + this.offset) * width + (this.boxSize / 2), 
-                        (this.boxSize + this.offset) * height + (this.boxSize));
-                }
+        let cellList = [];
+        for (let width = 0; width < this.size; width++) {
+            for (let height = 0; height < this.size; height++) {
+                cellList.push(new Cell(
+                    this.canvas, this.context,
+                    this.boxSize, this.offset,
+                    this.data.task[width][height] != 0 ? this.data.task[width][height] : "",
+                    width, height,
+                    this.boxColor, this.textColor
+                ));
             }
+        }
+        return cellList;
+    }
 
+    update() {
+        //Example test to showcase things
+        if(this.hasFinishCreatingGame && this.canvasFather.style.visibility != "hidden") {
+            console.log(this.xTest);
+            this.setCellColor(this.xTest,this.yTest,"green");
+            this.setCellText(this.xTest,this.yTest,"🏱︎");
+            this.setCellTextColor(this.xTest,this.yTest,"red");
+            this.xTest++;
+            if(this.xTest >= 9) this.xTest = 0;
+            this.yTest++;
+            if(this.yTest >= 9) this.yTest = 0;
         }
     }
 }
 
-let sudoku = new Sudoku("sudoku",fetchManager);
+let sudoku = new Sudoku("sudokuCanvas", fetchManager);
+
+function SudokuGameloop() {
+    window.requestAnimationFrame(SudokuGameloop);
+    sudoku.update();
+}
+
+SudokuGameloop();
+

@@ -8,8 +8,9 @@
         <link rel="icon" sizes="16x16 32x32 48x48" type="image/png" href="../assets/minami.png" />
         
 </head>
+
 <body>
-    
+
     <header>
         <div id="logo_solfaminas">
             <a href="index.html"><img src="../assets/solfami.png" alt="logo_icon" style="width: 5em;"></a>
@@ -33,6 +34,7 @@
             </div>
             <div id="playsudoku">
                 <p>sudoku</p>
+                <canvas id="sudokuCanvas"></canvas>
             </div>
 
             <div id="difficultyminesweeper">
@@ -71,24 +73,26 @@
     <footer>
 
         <p>GRUPO SOLFAMINAS 2025 &copy;</p>
-            <ul class="icons">
-                <li class="reglas-varias">
-                    <a href="https://sudoku.com/es/como-jugar/reglas-de-sudoku-para-principiantes/">
-                        <img src="../assets/sudoicon.webp" style="width: 2em" alt="Sudoku">
-                    </a>
-                </li>
-                <li class="reglas-varias">
-                    <a href="https://buscaminas.eu/reglas">
-                        <img src="../assets/minami.png" style="width: 2em"Buscaminas">
-                    </a>
-                </li>
-                <li class="reglas-varias">
-                    <a href="https://www.banderas-mundo.es/indice">
-                        <img src="../assets/suiza.png" style="width: 2em;" alt="Banderas">
-                    </a>
-                </li>
-            </ul>
+        <ul class="icons">
+            <li class="reglas-varias">
+                <a href="https://sudoku.com/es/como-jugar/reglas-de-sudoku-para-principiantes/">
+                    <img src="../assets/sudoicon.webp" style="width: 2em" alt="Sudoku">
+                </a>
+            </li>
+            <li class="reglas-varias">
+                <a href="https://buscaminas.eu/reglas">
+                    <img src="../assets/minami.png" style="width: 2em" Buscaminas">
+                </a>
+            </li>
+            <li class="reglas-varias">
+                <a href="https://www.banderas-mundo.es/indice">
+                    <img src="../assets/suiza.png" style="width: 2em;" alt="Banderas">
+                </a>
+            </li>
+        </ul>
     </footer>
     <script type="module" src="../javaScript/main.js"></script>
+    <script type="module" src="../javaScript/sudoku.js"></script>
 </body>
+
 </html>
