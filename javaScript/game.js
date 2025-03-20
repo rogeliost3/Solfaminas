@@ -1,7 +1,7 @@
 import { fetchManager } from "./api.js"
 
 class Game {
-    constructor(name,boxColor = "white", textColor = "black") {
+    constructor(name, boxColor = "white", textColor = "black") {
         this.boxColor = boxColor;
         this.textColor = textColor;
         //Set Canvas
@@ -22,10 +22,10 @@ class Game {
         this.canvas.width = (window.innerHeight / 2) + this.offset;
         this.canvas.height = (window.innerHeight / 2) + this.offset;
 
-        
+
     }
 
-    initGame(fetchManager,gameType) {
+    initGame(fetchManager, gameType) {
         fetchManager.getGameData(gameType).then((fetchData) => {
             this.data = fetchData;
             this.generateGame();
@@ -46,6 +46,6 @@ class Game {
     }
 }
 
-export {Game};
+export { Game };
 
 //let sudoku = new Game("sudoku",fetchManager,fetchManager.gameTypes.Sudoku);
