@@ -29,4 +29,4 @@ class Sudoku extends Game {
     }
 }
 
-let sudoku = new Sudoku("sudoku",fetchManager);
+let sudoku = new Sudoku("sudokuCanvas",fetchManager);
