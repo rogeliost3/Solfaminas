@@ -18,8 +18,8 @@ class Cell {
         
 
         this.cellStates = {
-            Open : 0,
-            Close : 1,
+            Close : 0,
+            Open : 1,
             Marked : 2
         }
 
