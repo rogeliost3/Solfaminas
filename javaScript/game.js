@@ -49,6 +49,8 @@ class Cell {
         return this.cellState;
     }
 
+    
+
     renderCell() {
         this.context.fillStyle = this.color;
                 this.context.fillRect(
@@ -78,6 +80,7 @@ class Game {
         this.selectBoxColor = selectColor;
         this.textColor = textColor;
         //Set Canvas
+        this.name = name;
         this.canvas = document.getElementById(name);
         this.canvas.style.backgroundColor = "red";
         //Set Context of Canvas
@@ -146,7 +149,7 @@ class Game {
                     }
                     break;
             }
-            this.setCellColor(this.selectedCell[1], this.selectedCell[0], "green");
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.selectBoxColor);
         }
     }
 

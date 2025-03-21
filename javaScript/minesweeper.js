@@ -1,9 +1,9 @@
 import { fetchManager } from "./api.js"
 import { Game,Cell } from "./game.js"
 
-const CELL_CLOSED = 0,
-    CELL_OPENED = 1,
-    CELL_MARKED = 2;
+// const CELL_CLOSED = 0,
+//     CELL_OPENED = 1,
+//     CELL_MARKED = 2;
 // BASE_URL_API = "https://shadify.yurace.pro/api/minesweeper/generator?start=4-5";
 
 
@@ -18,10 +18,12 @@ class Minesweeper extends Game {
     }
 
      init(){
+        let initCoords = this.data.start;
         let index = initCoords.indexOf("-");
         this.startx = parseInt(initCoords.substring(0, index))-1; // posicion inicial desde 1 a width, restamos 1 para homogeneizar
         this.starty = parseInt(initCoords.substring(index + 1))-1; 
         this.mines = this.data.mines;
+        this.canvasFather = document.getElementById("playminesweeper");
         // this.#initMinesweeperBoard();
     }
 
@@ -38,6 +40,7 @@ class Minesweeper extends Game {
                 ));
             }
         }
+        this.init();
         return cellList;
     }
 
@@ -52,6 +55,52 @@ class Minesweeper extends Game {
             
         }
     } 
+
+    updateInput(key) {
+        this.updateSelectedCell(key);
+        this.openCellWithKey(key);
+    }
+    
+    updateSelectedCell(key) {
+        if (this.hasFinishCreatingGame && this.canvasFather.style.visibility != "hidden") {
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.boxColor);
+            switch (key) {
+                case "ArrowUp":
+                    this.selectedCell[1]--;
+                    if (this.selectedCell[1] < 0) {
+                        this.selectedCell[1] = this.size - 1;
+                    }
+                    break;
+                case "ArrowDown":
+                    this.selectedCell[1]++;
+                    if (this.selectedCell[1] >= this.size) {
+                        this.selectedCell[1] = 0;
+                    }
+                    break;
+                case "ArrowRight":
+                    this.selectedCell[0]++;
+                    if (this.selectedCell[0] >= this.size) {
+                        this.selectedCell[0] = 0;
+                    }
+                    break;
+                case "ArrowLeft":
+                    this.selectedCell[0]--;
+                    if (this.selectedCell[0] < 0) {
+                        this.selectedCell[0] = this.size - 1;
+                    }
+                    break;
+            } 
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.selectBoxColor);
+            this.renderGrid();
+        }
+    }
+
+    openCellWithKey(key) {
+        if(key == " ") {
+            this.setCellState(this.selectedCell[1],this.selectedCell[0],this.cellList[0].cellStates.CELL_OPENED);
+            this.renderGrid();
+        }
+    }
 
     
     // Inicia el estado del tablero a todos cerrados
@@ -103,6 +152,26 @@ class Minesweeper extends Game {
             }
         }
     }
+
+    // Contar minas alrededor de una celda
+     countMinesAround(x, y) {
+        let mineCount = 0;
+
+        //recorremos la cuadricula completa de la celda en cuestion
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                const r = x + i;
+                const c = y + j;
+
+                //comprobamos que no nos salimos del tablero
+                if (r >= 0 && r < rows && c >= 0 && c < cols && board[r][c].classList.contains('mine')) {
+                    mineCount++;
+                }
+            }
+        }
+        return mineCount;
+    }
+
     switchCellMark(x, y) {
         if (this.getCellState(y, x)==CELL_MARKED) {
             this.setCellState(CELL_CLOSED)
@@ -157,6 +226,10 @@ class Minesweeper extends Game {
 }
 
 let minesweeper = new Minesweeper("minesweeperCanvas",fetchManager);
+document.addEventListener("keydown", 
+    function (kd) { 
+        minesweeper.updateInput(kd.key);
+    });
 
 /* que deberia tener el loop
 gameover =enjuego
