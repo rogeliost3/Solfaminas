@@ -5,6 +5,8 @@ class Sudoku extends Game {
         super(name);
         this.initGame(fetchManager, fetchManager.gameTypes.Sudoku);
         this.canvasFather = document.getElementById("playsudoku");
+        this.xTest = 0;
+        this.yTest = 0;
     }
 
     generateGame() {
@@ -26,7 +28,14 @@ class Sudoku extends Game {
     update() {
         //Example test to showcase things
         if(this.hasFinishCreatingGame && this.canvasFather.style.visibility != "hidden") {
-
+            console.log(this.xTest);
+            this.setCellColor(this.xTest,this.yTest,"green");
+            this.setCellText(this.xTest,this.yTest,"🏱︎");
+            this.setCellTextColor(this.xTest,this.yTest,"red");
+            this.xTest++;
+            if(this.xTest >= 9) this.xTest = 0;
+            this.yTest++;
+            if(this.yTest >= 9) this.yTest = 0;
         }
     }
 }
@@ -39,3 +48,4 @@ function SudokuGameloop() {
 }
 
 SudokuGameloop();
+

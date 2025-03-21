@@ -62,7 +62,7 @@ class Game {
         this.textColor = textColor;
         //Set Canvas
         this.canvas = document.getElementById(name);
-        this.canvas.style.backgroundColor = "red";
+
         //Set Context of Canvas
         this.context = this.canvas.getContext('2d');
 
@@ -132,7 +132,9 @@ class Game {
         this.cellList[x + this.size * y].setColor(color);
     }
 
-
+    getCellText(x,y) {
+        return this.cellList[x + this.size * y].text;
+    }
     
 }
 
