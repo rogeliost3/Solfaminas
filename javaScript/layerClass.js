@@ -20,25 +20,26 @@ class Layer {
     }
 
     hideAll(){
-        this.chooseLayer.style.visibility = "hidden";
-        this.gameLayer.style.visibility = "hidden";
-        this.sudokuDifficulty.style.visibility = "hidden";
-        this.sudokuLayer.style.visibility = "hidden";
-        this.minesweeperDifficulty.style.visibility = "hidden";
-        this.minesweeperLayer.style.visibility = "hidden";
-        this.flagsDifficulty.style.visibility = "hidden";
-        this.flagsLayer.style.visibility = "hidden";
-        this.replayLayer.style.visibility = "hidden";
-        this.scoreLayer.style.visibility = "hidden";
+        this.chooseLayer.style.display = "none";
+        this.gameLayer.style.display = "none";
+        this.sudokuDifficulty.style.display = "none";
+        this.sudokuLayer.style.display = "none";
+        this.minesweeperDifficulty.style.display = "none";
+        this.minesweeperLayer.style.display = "none";
+        this.flagsDifficulty.style.display = "none";
+        this.flagsLayer.style.display = "none";
+        this.replayLayer.style.display = "none";
+        this.scoreLayer.style.display = "none";
     }
 
     begin(){
-        this.chooseLayer.style.visibility = "visible";
+        this.chooseLayer.style.display = "block";
     }
     
     showLayer(layer){
         this.hideAll();
-        layer.style.visibility = "visible";
+        this.gameLayer.style.display = "block";
+        layer.style.display = "block";
     }
 
     replayChoosenGame(gameChoosed){
