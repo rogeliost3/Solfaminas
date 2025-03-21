@@ -18,6 +18,7 @@ layer.sudoku.addEventListener('click', (e) => {
 layer.sudokuDifficulty.addEventListener('click', (e) => {
     layer.showLayer(layer.sudokuLayer);
     gameChoosed = "sudoku";
+    
 });
 layer.sudokuLayer.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
