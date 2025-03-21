@@ -73,8 +73,9 @@ class Cell {
 }
 
 class Game {
-    constructor(name, boxColor = "white", textColor = "black") {
+    constructor(name, boxColor = "white", textColor = "black", selectColor = "green") {
         this.boxColor = boxColor;
+        this.selectBoxColor = selectColor;
         this.textColor = textColor;
         //Set Canvas
         this.canvas = document.getElementById(name);
@@ -98,6 +99,8 @@ class Game {
 
         this.cellList = [];
 
+        this.selectedCell = [0,0];
+
         this.hasFinishCreatingGame = false;
     }
 
@@ -108,6 +111,43 @@ class Game {
             this.renderGrid();
             this.hasFinishCreatingGame = true;
         });
+    }
+
+    updateInput(key) {
+        this.updateSelectedCell(key);
+    }
+
+    updateSelectedCell(key) {
+        if (this.hasFinishCreatingGame && this.canvasFather.style.visibility != "hidden") {
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.boxColor);
+            switch (key) {
+                case "ArrowUp":
+                    this.selectedCell[1]--;
+                    if (this.selectedCell[1] < 0) {
+                        this.selectedCell[1] = this.size - 1;
+                    }
+                    break;
+                case "ArrowDown":
+                    this.selectedCell[1]++;
+                    if (this.selectedCell[1] >= this.size) {
+                        this.selectedCell[1] = 0;
+                    }
+                    break;
+                case "ArrowRight":
+                    this.selectedCell[0]++;
+                    if (this.selectedCell[0] >= this.size) {
+                        this.selectedCell[0] = 0;
+                    }
+                    break;
+                case "ArrowLeft":
+                    this.selectedCell[0]--;
+                    if (this.selectedCell[0] < 0) {
+                        this.selectedCell[0] = this.size - 1;
+                    }
+                    break;
+            }
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0], "green");
+        }
     }
 
     generateGame() {
