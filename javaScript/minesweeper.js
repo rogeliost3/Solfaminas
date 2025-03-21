@@ -1,5 +1,5 @@
 import { fetchManager } from "./api.js"
-import { Game } from "./game.js"
+import { Game,Cell } from "./game.js"
 
 const CELL_CLOSED = 0,
     CELL_OPENED = 1,
@@ -40,6 +40,18 @@ class Minesweeper extends Game {
         }
         return cellList;
     }
+
+    renderGrid() {
+        this.context.font = "25px Arial";
+        for(let cell of this.cellList) {
+            if(cell.getState() == cell.cellStates.Close) {
+                cell.renderCell();
+            } else {
+                cell.render();
+            }
+            
+        }
+    } 
 
     
     // Inicia el estado del tablero a todos cerrados

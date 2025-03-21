@@ -45,6 +45,10 @@ class Cell {
         this.cellState = state;
     }
 
+    getState() {
+        return this.cellState;
+    }
+
     renderCell() {
         this.context.fillStyle = this.color;
                 this.context.fillRect(
@@ -74,7 +78,7 @@ class Game {
         this.textColor = textColor;
         //Set Canvas
         this.canvas = document.getElementById(name);
-
+        this.canvas.style.backgroundColor = "red";
         //Set Context of Canvas
         this.context = this.canvas.getContext('2d');
 
@@ -122,7 +126,7 @@ class Game {
     }
 
     renderGrid() {
-        this.context.font = "25px Wingdings";
+        this.context.font = "25px Arial";
         for(let cell of this.cellList) {
             cell.render();
         }
