@@ -34,7 +34,7 @@
     cursor: pointer;
   }
  
-  .gamebox {
+  /* .gamebox {
     background-color: var(--weakPrimary);
     border: none;
     color: var(--strongSecondary);
@@ -44,8 +44,10 @@
     font-family: 'TT Chocolates Trial Medium';
     width: 20%;
     padding: 3%;
+    }
     
-  }
+    */
+    
 
   #sudoku {
     background-color: black;
@@ -53,6 +55,7 @@
     width: 550em;
   }
 
+  /* Esto afecta a la dificultad: */
   #game{
     background-color: var(--strongPrimary);
     text-align: center;
@@ -143,7 +146,6 @@
 }
 
 @media  (max-width:1400px) and (min-width: 360px) {
-  /*meter aquí la parte responsive*/
   #sudoku, #minesweeper, #flags{
     
     width: 10%;
@@ -154,5 +156,43 @@
     border-radius: 5em;
     background-color: var(--strongPrimary);
     color: var(--text);
+  }
+}
+
+@media  (min-width: 1400px) {
+  #playsudoku, #minesweeper, #flags {
+
+    position: absolute;
+    width: 0%;
+    padding:0%;
+    margin: 5%;
+    font-size: 1.5em;
+    font-family: 'TT Chocolates Trial Medium';
+    border-radius: 3em;
+    text-align: center;
+    text-decoration: none;
+    border:none;
+    border-radius: 5em;
+    background-color: var(--background);
+    color: whitesmoke;
+}
+
+}
+
+@media  (max-width:1400px) and (min-width: 360px) {
+  #playsudoku, #minesweeper, #flags {
+    position: absolute;
+    width: 0%;
+    padding:0%;
+    margin: 5%;
+    font-size: 1.5em;
+    font-family: 'TT Chocolates Trial Medium';
+    border-radius: 3em;
+    text-align: center;
+    text-decoration: none;
+    border:none;
+    border-radius: 5em;
+    background-color: var(--background);
+    color: whitesmoke;
   }
 }
