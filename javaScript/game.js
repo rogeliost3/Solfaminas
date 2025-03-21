@@ -16,6 +16,14 @@ class Cell {
         this.text = text;
 
         
+
+        this.cellStates = {
+            Close : 0,
+            Open : 1,
+            Marked : 2
+        }
+
+        this.cellState = this.cellStates.Close;
     }
 
     setColor(color) {
@@ -32,6 +40,16 @@ class Cell {
         this.text = text;
         this.render();
     }
+
+    setState(state) {
+        this.cellState = state;
+    }
+
+    getState() {
+        return this.cellState;
+    }
+
+    
 
     renderCell() {
         this.context.fillStyle = this.color;
@@ -57,10 +75,12 @@ class Cell {
 }
 
 class Game {
-    constructor(name, boxColor = "white", textColor = "black") {
+    constructor(name, boxColor = "white", textColor = "black", selectColor = "green") {
         this.boxColor = boxColor;
+        this.selectBoxColor = selectColor;
         this.textColor = textColor;
         //Set Canvas
+        this.name = name;
         this.canvas = document.getElementById(name);
         this.canvas.style.backgroundColor = "red";
         //Set Context of Canvas
@@ -82,6 +102,8 @@ class Game {
 
         this.cellList = [];
 
+        this.selectedCell = [0,0];
+
         this.hasFinishCreatingGame = false;
     }
 
@@ -92,6 +114,43 @@ class Game {
             this.renderGrid();
             this.hasFinishCreatingGame = true;
         });
+    }
+
+    updateInput(key) {
+        this.updateSelectedCell(key);
+    }
+
+    updateSelectedCell(key) {
+        if (this.hasFinishCreatingGame && this.canvasFather.style.visibility != "hidden") {
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.boxColor);
+            switch (key) {
+                case "ArrowUp":
+                    this.selectedCell[1]--;
+                    if (this.selectedCell[1] < 0) {
+                        this.selectedCell[1] = this.size - 1;
+                    }
+                    break;
+                case "ArrowDown":
+                    this.selectedCell[1]++;
+                    if (this.selectedCell[1] >= this.size) {
+                        this.selectedCell[1] = 0;
+                    }
+                    break;
+                case "ArrowRight":
+                    this.selectedCell[0]++;
+                    if (this.selectedCell[0] >= this.size) {
+                        this.selectedCell[0] = 0;
+                    }
+                    break;
+                case "ArrowLeft":
+                    this.selectedCell[0]--;
+                    if (this.selectedCell[0] < 0) {
+                        this.selectedCell[0] = this.size - 1;
+                    }
+                    break;
+            }
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.selectBoxColor);
+        }
     }
 
     generateGame() {
@@ -110,7 +169,7 @@ class Game {
     }
 
     renderGrid() {
-        this.context.font = "25px Wingdings";
+        this.context.font = "25px Arial";
         for(let cell of this.cellList) {
             cell.render();
         }
@@ -132,7 +191,17 @@ class Game {
         this.cellList[x + this.size * y].setColor(color);
     }
 
+    setCellState(x,y,state) {
+        this.cellList[x + this.size * y].setState(state);
+    }
 
+    getCellState(x,y) {
+        return this.cellList[x + this.size * y].cellState;
+    }
+
+    getCellText(x,y) {
+        return this.cellList[x + this.size * y].text;
+    }
     
 }
 
