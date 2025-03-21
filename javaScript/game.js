@@ -16,6 +16,14 @@ class Cell {
         this.text = text;
 
         
+
+        this.cellStates = {
+            Close : 0,
+            Open : 1,
+            Marked : 2
+        }
+
+        this.cellState = this.cellStates.Close;
     }
 
     setColor(color) {
@@ -31,6 +39,10 @@ class Cell {
     setText(text) {
         this.text = text;
         this.render();
+    }
+
+    setState(state) {
+        this.cellState = state;
     }
 
     renderCell() {
@@ -62,7 +74,7 @@ class Game {
         this.textColor = textColor;
         //Set Canvas
         this.canvas = document.getElementById(name);
-        this.canvas.style.backgroundColor = "red";
+
         //Set Context of Canvas
         this.context = this.canvas.getContext('2d');
 
@@ -132,7 +144,17 @@ class Game {
         this.cellList[x + this.size * y].setColor(color);
     }
 
+    setCellState(x,y,state) {
+        this.cellList[x + this.size * y].setState(state);
+    }
 
+    getCellState(x,y) {
+        return this.cellList[x + this.size * y].cellState;
+    }
+
+    getCellText(x,y) {
+        return this.cellList[x + this.size * y].text;
+    }
     
 }
 
