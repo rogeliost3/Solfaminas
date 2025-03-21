@@ -121,7 +121,7 @@ class Game {
     }
 
     updateSelectedCell(key) {
-        if (this.hasFinishCreatingGame && this.canvasFather.style.visibility != "hidden") {
+        if (this.hasFinishCreatingGame && this.canvasFather.style.display != "none") {
             this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.boxColor);
             switch (key) {
                 case "ArrowUp":
