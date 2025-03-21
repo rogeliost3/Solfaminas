@@ -20,16 +20,16 @@ class Layer {
     }
 
     hideAll(){
-        this.chooseLayer.style.display= "none"; 
-        this.gameLayer.style.display= "none"; 
-        this.sudokuDifficulty.style.display= "none"; 
-        this.sudokuLayer.style.display= "none"; 
-        this.minesweeperDifficulty.style.display= "none"; 
-        this.minesweeperLayer.style.display= "none"; 
-        this.flagsDifficulty.style.display= "none"; 
-        this.flagsLayer.style.display= "none"; 
-        this.replayLayer.style.display= "none"; 
-        this.scoreLayer.style.display= "none"; 
+        this.chooseLayer.style.display = "none";
+        this.gameLayer.style.display = "none";
+        this.sudokuDifficulty.style.display = "none";
+        this.sudokuLayer.style.display = "none";
+        this.minesweeperDifficulty.style.display = "none";
+        this.minesweeperLayer.style.display = "none";
+        this.flagsDifficulty.style.display = "none";
+        this.flagsLayer.style.display = "none";
+        this.replayLayer.style.display = "none";
+        this.scoreLayer.style.display = "none";
     }
 
     begin(){
@@ -38,9 +38,9 @@ class Layer {
     
     showLayer(layer){
         this.hideAll();
-        this.gameLayer.style.display= "block"; 
-        layer.style.display= "block"; 
-        }
+        this.gameLayer.style.display = "block";
+        layer.style.display = "block";
+    }
 
     replayChoosenGame(gameChoosed){
         switch(gameChoosed){
