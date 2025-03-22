@@ -31,7 +31,7 @@ class Sudoku extends Game {
     }
 
     changeNumber(key) {
-        if(this.numbers.includes(key)) {
+        if(this.numbers.includes(key) && this.getCell(this.selectedCell[1], this.selectedCell[0]).firstColor != "gray") {
             this.setCellText(this.selectedCell[1], this.selectedCell[0], key);
         }
     }
