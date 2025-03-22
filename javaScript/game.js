@@ -5,6 +5,7 @@ class Cell {
         this.x = x;
         this.y = y;
         this.color = color;
+        this.firstColor = color;
         this.textColor = textColor;
 
         this.canvas = canvas;
@@ -122,7 +123,7 @@ class Game {
 
     updateSelectedCell(key) {
         if (this.hasFinishCreatingGame && this.canvasFather.style.display != "none") {
-            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.boxColor);
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0],this.getCell(this.selectedCell[1],this.selectedCell[0]).firstColor);
             switch (key) {
                 case "ArrowUp":
                     this.selectedCell[1]--;
@@ -201,6 +202,10 @@ class Game {
 
     getCellText(x,y) {
         return this.cellList[x + this.size * y].text;
+    }
+
+    getCell(x,y) {
+        return this.cellList[x + this.size * y];
     }
     
 }
