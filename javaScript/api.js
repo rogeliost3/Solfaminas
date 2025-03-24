@@ -1,7 +1,7 @@
 class Fetch {
     constructor() {
         this.gameTypes = {
-            Sudoku : "sudoku/generator",
+            Sudoku : "sudoku/generator?fill=50",
             Minesweeper : "minesweeper/generator?start=4-5",
             Takuzu : "takuzu/generator",
             WordSearch : "wordsearch/generator",

@@ -1,4 +1,5 @@
 import{Layer} from "./layerClass.js";
+import{sudoku} from "./sudoku.js"
 
 const layer = new Layer(); 
 let gameChoosed = "";
@@ -22,6 +23,10 @@ layer.sudokuDifficulty.addEventListener('click', (e) => {
 });
 layer.finishSudoku.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
+});
+
+layer.checkSudoku.addEventListener('click',(e)=> {
+    sudoku.checkIfCorrect();
 });
 
 //funcion para resetear el juego
