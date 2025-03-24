@@ -15,8 +15,6 @@ class Cell {
 
         this.text = text;
 
-        
-
         this.cellStates = {
             Close : 0,
             Open : 1,
@@ -59,18 +57,18 @@ class Cell {
                     this.size, this.size);
     }
 
-    renderText() {
+    renderText(flag) {
         this.context.fillStyle = this.textColor;
                     this.context.fillText(
-                        this.text, 
+                        flag=="" ? this.text : "F",
                         (this.size + this.offset) * this.x + (this.size / 2), 
                         (this.size + this.offset) * this.y + (this.size));
                 
     }
 
-    render() {
+    render(flag="") {
         this.renderCell();
-        this.renderText();
+        this.renderText(flag);
     }
 }
 
@@ -125,9 +123,9 @@ class Game {
             this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.boxColor);
             switch (key) {
                 case "ArrowUp":
-                    this.selectedCell[1]--;
-                    if (this.selectedCell[1] < 0) {
-                        this.selectedCell[1] = this.size - 1;
+                    this.selectedCell[1]--; 
+                    if (this.selectedCell[1] < 0) { 
+                        this.selectedCell[1] = this.size - 1; 
                     }
                     break;
                 case "ArrowDown":
@@ -137,7 +135,7 @@ class Game {
                     }
                     break;
                 case "ArrowRight":
-                    this.selectedCell[0]++;
+                    this.selectedCell[0]++; 
                     if (this.selectedCell[0] >= this.size) {
                         this.selectedCell[0] = 0;
                     }
