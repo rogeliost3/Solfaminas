@@ -32,12 +32,12 @@ class Minesweeper extends Game {
 
     generateGame() {
         let cellList = [];
-        for (let col = 0; col < this.size; col++) {
-            for (let row = 0; row < this.size; row++) {
+            for (let col = 0; col < this.size; col++) {
+                for (let row = 0; row < this.size; row++) {
                 cellList.push(new Cell(
                     this.canvas, this.context,
                     this.boxSize, this.offset,
-                    this.data.board[col][row], //TODO fila / columna ??
+                    this.data.board[col][row], 
                     col, row,
                     this.boxColor, this.textColor
                 ));
@@ -48,25 +48,27 @@ class Minesweeper extends Game {
     }
 
     getRow() {
-        return this.selectedCell[1];
-    }
-
-    getCol() {
         return this.selectedCell[0];
     }
 
+    getCol() {
+        return this.selectedCell[1];
+    }
+
     setRow(row) {
-        this.selectedCell[1]=row;
+        this.selectedCell[0]=row;
     }
 
     setCol(col) {
-        this.selectedCell[0]=col;
+        this.selectedCell[1]=col;
     }
 
     //dibujar tablero completo en su estado actual
     renderGrid() {
         this.context.font = "25px Arial";
         let aux = "";
+        //console.log("Row: "+this.getRow()+" Col: "+this.getCol()+" state:"+this.getCellState(this.getRow(),this.getCol()));
+        //console.log("mina: "+this.getCellText(this.getRow(),this.getCol()));
         for (let cell of this.cellList) {
 
             //si la celda tiene bandera se considera aún cerrada
@@ -82,8 +84,8 @@ class Minesweeper extends Game {
                     cell.render(); // dibuja caja y contenido de celda
                 }
             }
+           
         }
-        console.log("Row: "+this.getRow()+" col: "+this.getCol());
     }
 
     //procesar pulsaciones de teclas
@@ -101,76 +103,86 @@ class Minesweeper extends Game {
 
     //mover cursor si es tecla de movimiento
     updateSelectedCell(key) {
-        // console.log("Row: "+this.getRow()+" col: "+this.getRow());
-        this.setCellColor(this.getRow(), this.getCol(), this.boxColor);
+        let x=this.getCol();
+        let y=this.getRow();
+        this.setCellColor(y, x, this.boxColor);
         switch (key) {
             case "ArrowUp":
-                this.setRow(this.getRow()-1);
-                if (this.getRow() < 0) {
-                    this.setRow(this.size - 1);
+                y--;
+                if (y < 0) {
+                    y=this.size - 1;
                 }
                 break;
             case "ArrowDown":
-                this.setRow(this.getRow()+1);
-                if (this.getRow() >= this.size) {
-                    this.setRow(0);
+                y++;
+                if (y >= this.size) {
+                    y=0;
                 }
                 break;
             case "ArrowRight":
-                this.setCol(this.getCol()+1); //[0] es para eje x
-                if (this.getCol() >= this.size) {
-                    this.setCol(0);
+                x++; 
+                if (x >= this.size) {
+                    x=0;
                 }
                 break;
             case "ArrowLeft":
-                this.setCol(this.getCol()-1);
-                if (this.getCol() < 0) {
-                    this.setCol(this.size - 1);
+                x--;
+                if (x < 0) {
+                    x=this.size - 1;
                 }
                 break;
         }
-        this.setCellColor(this.getRow(), this.getCol(), this.selectBoxColor);
+        this.setCol(x);
+        this.setRow(y);
+        this.setCellColor(y,x, this.selectBoxColor);
         this.renderGrid();
     }
 
     //procesar resto de pulsaciones (teclas F y espacio)   
     processKey(key) {
-        let state = this.getCellState(this.getRow(), this.getCol());
+        let x=this.getCol();
+        let y=this.getRow();
+        let state = this.getCellState(y, x);
+        let content = this.getCellText(y,x);
         if (state != OPEN) {
             if (key == " ") {
                 if (state == CLOSE) {
-                    //this.setCellState(this.getRow(), this.getCol(), OPEN);
-                    const minesAround = this.countMinesAround(this.getRow(), this.getCol());
-                    if (minesAround === 0) {
-                        this.revealNeightborCells(this.getRow(), this.getCol());
+                    // const minesAround = this.countMinesAround(x, y);
+                    //console.log("content: "+content);
+                    if (content != "x") { //no es mina
+                        if (content!="o") { //es un numero
+                            this.setCellState(y, x, this.OPEN);
+                        } else {
+                            //console.log("llamando funcion recursiva x:"+x+" y:"+y);
+                            this.revealNeightborCells(x, y);
+                        }
                     } else {
                         this.revealAllMines();
                         alert('¡Game Over! Has pisado una mina.');
                         this.gameOver=true;
                     }
-                    //this.openCell(this.getRow(), this.getCol());
                     this.renderGrid();
                 }
             }
             if (key == "f" || key == "F") {
-                this.switchCellMark(this.getRow(), this.getCol());
+                this.switchCellMark(x, y);
                 this.renderGrid();
             }
         }
     }
 
-    switchCellMark(y, x) {
-        const state=this.getCellState(x, y);
+    switchCellMark(x, y) {
+        const state=this.getCellState(y, x);
         if (state == MARKED) {
-            this.setCellState(x, y, CLOSE);
+            this.setCellState(y, x, CLOSE);
         } else {
-            this.setCellState(x, y, MARKED);
+            this.setCellState(y, x, MARKED);
         }
     }
 
 
     // Contar minas alrededor de una celda
-    countMinesAround(row, col) {
+    countMinesAround(col, row) {
         let mineCount = 0;
 
         //recorrer la cuadricula alrededor de row,col, incluida row,col
@@ -178,11 +190,11 @@ class Minesweeper extends Game {
             for (let dx = -1; dx <= 1; dx++) {
 
                 //calcula la fila y columna de la celda actual
-                const r = row + dy;
-                const c = col + dx;
+                const y = row + dy;
+                const x = col + dx;
 
                 //comprobamos que no nos salimos del tablero y si es mina la contamos
-                if (r >= 0 && r < this.height && c >= 0 && c < this.width && this.getCellText(r, c)=="x") {
+                if (y >= 0 && y < this.height && x >= 0 && x < this.width && this.getCellText(y, x)=="x") {
                     mineCount++;
                 }
             }
@@ -196,7 +208,8 @@ class Minesweeper extends Game {
 
     // Revelar celdas vacías o con numeros adyacentes a row,col
     // Ojo: row,col ya se ha mirado antes de llamar a esta funcion y ya sabemos que no tiene mina.
-    revealNeightborCells(row, col) {
+    revealNeightborCells(col, row) {
+        //console.log("funcion recursiva en x:"+col+" y:"+row);
         for (let dy = -1; dy <= 1; dy++) {
             for (let dx = -1; dx <= 1; dx++) {
 
@@ -206,24 +219,29 @@ class Minesweeper extends Game {
 
                 //Si celda esta fuera del tablero no la comprueba
                 if (y >= 0 && y < this.height && x >= 0 && x < this.width) {
-
+                    //console.log("dentro del board");
                     //mirar estado de la celda
-                    const state = this.getCellState(x, y);
+                    const state = this.getCellState(y, x);
+                    //console.log("state: "+state);
 
                     //si ya está abierta no la procesa
-                    if (state == this.CLOSE) { //TODO que pasa con las marcadas, se abren o se dejan marcadas?
-
+                    if (state === 0) { //TODO que pasa con las marcadas, se abren o se dejan marcadas?
+                        
                         //sino, la abre 
-                        this.setCellState(x, y, this.OPEN);
+                        this.setCellState(y, x, this.OPEN); 
+
+                        //console.log("abre la celda x: "+x+" y: "+y);
 
                         //Al ser abierta mirar si su cuadricula tiene alguna mina
                         //si la tiene no hace nada ya que el proposito de esta funcion es solo revelar las vacias
-                        if (countMinesAround(y, x) === 0) {
+                        if (this.countMinesAround(x, y) === 0) {
 
                             //si la cuadricula no tiene mina, abrir recursivamente cada celda alrededor de ella 
-                            this.revealNeightborCells(y, x);
+                            this.revealNeightborCells(x, y);
                         }
                     }
+                } else {
+                    //console.log("fuera del board");
                 }
             }
         }
@@ -276,7 +294,7 @@ class Minesweeper extends Game {
     //     let color=this.boxColor;
     //     if (y==this.starty && x==this.startx) {
     //         color="green";
-    //         console.log("posicion inicial green");
+    //         //console.log("posicion inicial green");
     //     }
     //     this.context.fillStyle = color;
 
