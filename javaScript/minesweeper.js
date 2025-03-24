@@ -1,9 +1,9 @@
 import { fetchManager } from "./api.js"
 import { Game, Cell } from "./game.js"
 
-// const CELL_CLOSED = 0,
-//     CELL_OPENED = 1,
-//     CELL_MARKED = 2;
+ const  CLOSE = 0,
+        OPEN = 1,
+        MARKED = 2;
 // BASE_URL_API = "https://shadify.yurace.pro/api/minesweeper/generator?start=4-5";
 
 
@@ -11,27 +11,34 @@ class Minesweeper extends Game {
 
     constructor(name, fetchManager) {
         super(name);
+        this.gameOver=false;
         this.initGame(fetchManager, fetchManager.gameTypes.Minesweeper);
     }
 
     initBoard() {
+        //necesario para procesar las celdas
+        this.width=this.data.width;
+        this.height=this.data.height;
+
+        //extraer coordenadas de la celda que debe aparecer abierta al inicio del juego.
         let initCoords = this.data.start;
         let index = initCoords.indexOf("-");
         this.startx = parseInt(initCoords.substring(0, index)) - 1; // posicion inicial desde 1 a width, restamos 1 para homogeneizar
         this.starty = parseInt(initCoords.substring(index + 1)) - 1;
+
         this.mines = this.data.mines;
         this.canvasFather = document.getElementById("playminesweeper");
     }
 
     generateGame() {
         let cellList = [];
-        for (let width = 0; width < this.size; width++) {
-            for (let height = 0; height < this.size; height++) {
+        for (let col = 0; col < this.size; col++) {
+            for (let row = 0; row < this.size; row++) {
                 cellList.push(new Cell(
                     this.canvas, this.context,
                     this.boxSize, this.offset,
-                    this.data.board[width][height], //TODO fila / columna ??
-                    width, height,
+                    this.data.board[col][row], //TODO fila / columna ??
+                    col, row,
                     this.boxColor, this.textColor
                 ));
             }
@@ -40,93 +47,189 @@ class Minesweeper extends Game {
         return cellList;
     }
 
+    getRow() {
+        return this.selectedCell[1];
+    }
+
+    getCol() {
+        return this.selectedCell[0];
+    }
+
+    setRow(row) {
+        this.selectedCell[1]=row;
+    }
+
+    setCol(col) {
+        this.selectedCell[0]=col;
+    }
+
     //dibujar tablero completo en su estado actual
     renderGrid() {
         this.context.font = "25px Arial";
         let aux = "";
         for (let cell of this.cellList) {
-            if (cell.getState() == cell.cellStates.Marked) {
+
+            //si la celda tiene bandera se considera aún cerrada
+            if (cell.getState() == MARKED) {
                 aux += cell.getState() + " ";
-                cell.render("F"); //dibuja la bandera
+                cell.render("F");
             } else {
-                if (cell.getState() == cell.cellStates.Close) {
+
+                //y si no es bandera se dibuja solo caja si esta cerrada o caja y contenido si ya abierta
+                if (cell.getState() == CLOSE) {
                     cell.renderCell(); // dibujar solo la caja
                 } else {
-                    cell.render(); // dibuja caja y contenido
+                    cell.render(); // dibuja caja y contenido de celda
                 }
             }
         }
         console.log("cell.getState(): " + aux);
     }
 
+    //procesar pulsaciones de teclas
     updateInput(key) {
-        //actualizar cursor si es tecla de movimiento
-        this.updateSelectedCell(key);
+        console.log("Row: "+this.getRow()+" col: "+this.getCol());
 
-        //procesar resto de pulsaciones (teclas F y espacio)
-        this.processKey(key);
-    }
-
-    //actualizar cursor si es tecla de movimiento
-    updateSelectedCell(key) {
         // si el juego esta cargado y activo
         if (this.hasFinishCreatingGame && this.canvasFather.style.visibility != "hidden") {
-            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.boxColor);
-            switch (key) {
-                case "ArrowUp":
-                    this.selectedCell[1]--; //[1] es para arriba y abajo
-                    if (this.selectedCell[1] < 0) { //si se pasa de los bordes
-                        this.selectedCell[1] = this.size - 1; //que aparezca por el otro lado
-                    }
-                    break;
-                case "ArrowDown":
-                    this.selectedCell[1]++;
-                    if (this.selectedCell[1] >= this.size) {
-                        this.selectedCell[1] = 0;
-                    }
-                    break;
-                case "ArrowRight":
-                    this.selectedCell[0]++; //[0] es para izquierda y derecha
-                    if (this.selectedCell[0] >= this.size) {
-                        this.selectedCell[0] = 0;
-                    }
-                    break;
-                case "ArrowLeft":
-                    this.selectedCell[0]--;
-                    if (this.selectedCell[0] < 0) {
-                        this.selectedCell[0] = this.size - 1;
-                    }
-                    break;
-            }
-            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.selectBoxColor);
-            this.renderGrid();
+
+            //mover cursor si es tecla de movimiento
+            this.updateSelectedCell(key);
+
+            //procesar resto de pulsaciones (teclas F y espacio)
+            this.processKey(key);
         }
     }
 
-    //procesar resto de pulsaciones (teclas F y espacio)
+    //mover cursor si es tecla de movimiento
+    updateSelectedCell(key) {
+        // console.log("Row: "+this.getRow()+" col: "+this.getRow());
+        this.setCellColor(this.getRow(), this.getCol(), this.boxColor);
+        switch (key) {
+            case "ArrowUp":
+                this.setRow(this.getRow()-1);
+                if (this.getRow() < 0) {
+                    this.setRow(this.size - 1);
+                }
+                break;
+            case "ArrowDown":
+                this.setRow(this.getRow()+1);
+                if (this.getRow() >= this.size) {
+                    this.setRow(0);
+                }
+                break;
+            case "ArrowRight":
+                this.setCol(this.getCol()+1); //[0] es para eje x
+                if (this.getCol() >= this.size) {
+                    this.setCol(0);
+                }
+                break;
+            case "ArrowLeft":
+                this.setCol(this.getCol()-1);
+                if (this.getCol() < 0) {
+                    this.setCol(this.size - 1);
+                }
+                break;
+        }
+        this.setCellColor(this.getRow(), this.getCol(), this.selectBoxColor);
+        this.renderGrid();
+    }
+
+    //procesar resto de pulsaciones (teclas F y espacio)   
     processKey(key) {
-        let state = this.getCellState(this.selectedCell[1], this.selectedCell[0]);
-        if (state != this.cellList[0].cellStates.Open) {
+        let state = this.getCellState(this.getRow(), this.getCol());
+        if (state != OPEN) {
             if (key == " ") {
-                if (state == this.cellList[0].cellStates.Close) {
-                    this.setCellState(this.selectedCell[1], this.selectedCell[0], this.cellList[0].cellStates.Open);
-                    this.openCell(this.selectedCell[1], this.selectedCell[0]);
+                if (state == CLOSE) {
+                    //this.setCellState(this.getRow(), this.getCol(), OPEN);
+                    const minesAround = this.countMinesAround(this.getRow(), this.getCol());
+                    if (minesAround === 0) {
+                        this.revealNeightborCells(this.getRow(), this.getCol());
+                    } else {
+                        this.revealAllMines();
+                        alert('¡Game Over! Has pisado una mina.');
+                        this.gameOver=true;
+                    }
+                    //this.openCell(this.getRow(), this.getCol());
                     this.renderGrid();
                 }
             }
             if (key == "f" || key == "F") {
-                console.log("state: " + state);
-                if (state == this.cellList[0].cellStates.Marked) {
-                    this.setCellState(this.selectedCell[1], this.selectedCell[0], this.cellList[0].cellStates.Close);
-                    this.renderGrid();
-                } else {
-                    this.setCellState(this.selectedCell[1], this.selectedCell[0], this.cellList[0].cellStates.Marked);
-                    this.renderGrid();
-                }
+                this.switchCellMark(this.getRow(), this.getCol());
+                this.renderGrid();
             }
         }
     }
 
+    switchCellMark(y, x) {
+        const state=this.getCellState(y, x);
+        if (state == MARKED) {
+            this.setCellState(y, x, CLOSE);
+        } else {
+            this.setCellState(y, x, MARKED);
+        }
+    }
+
+
+    // Contar minas alrededor de una celda
+    countMinesAround(row, col) {
+        let mineCount = 0;
+
+        //recorrer la cuadricula alrededor de row,col, incluida row,col
+        for (let dy = -1; dy <= 1; dy++) {
+            for (let dx = -1; dx <= 1; dx++) {
+
+                //calcula la fila y columna de la celda actual
+                const r = row + dy;
+                const c = col + dx;
+
+                //comprobamos que no nos salimos del tablero y si es mina la contamos
+                if (r >= 0 && r < this.height && c >= 0 && c < this.width && this.getCellText(r, c)=="x") {
+                    mineCount++;
+                }
+            }
+        }
+        return mineCount;
+    }
+
+    revealAllMines() {
+        //TODO revealAllMines()
+    }
+
+    // Revelar celdas vacías o con numeros adyacentes a row,col
+    // Ojo: row,col ya se ha mirado antes de llamar a esta funcion y ya sabemos que no tiene mina.
+    revealNeightborCells(row, col) {
+        for (let dy = -1; dy <= 1; dy++) {
+            for (let dx = -1; dx <= 1; dx++) {
+
+                //calcula la fila y columna de la celda
+                const r = row + dy;
+                const c = col + dx;
+
+                //Si celda esta fuera del tablero no la comprueba
+                if (r >= 0 && r < this.height && c >= 0 && c < this.width) {
+
+                    //mirar estado de la celda
+                    const state = this.getCellState(r, c);
+
+                    //si ya está abierta no la procesa
+                    if (state == this.CLOSE) { //TODO que pasa con las marcadas, se abren o se dejan marcadas?
+
+                        //sino, la abre 
+                        this.setCellState(this.OPEN);
+
+                        //Al ser abierta mirar si su cuadricula tiene alguna mina
+                        //si la tiene no hace nada ya que el proposito de esta funcion es solo revelar las vacias
+                        if (countMinesAround(r, c) === 0) {
+
+                            //si la cuadricula no tiene mina, abrir recursivamente cada celda alrededor de ella 
+                            this.revealNeightborCells(r, c);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // Inicia el estado del tablero a todos cerrados
     // async #initMinesweeperBoard() { 
@@ -150,15 +253,15 @@ class Minesweeper extends Game {
     // }
 
     // abrir y procesar celdas alrededor de x,y, devolver true si hay bomba, false si no
-    openCell(x, y) {
+    /*openCell(x, y) {
         let bomb = false;
-        if (this.getCellState(x, y) == this.cellList[0].cellStates.Close) {
+        if (this.getCellState(x, y) == CLOSE) {
             // this.setCellState(y, x, CELL_OPENED);
             for (let posy = y - 1; posy <= y + 1; posy++) {
                 for (let posx = x - 1; posx <= x + 1; posx++) {
                     if (posx > -1 && posy > -1 && posx < this.width && posy < this.height) {
-                        if (this.getCellState(posy, posx) == this.cellList[0].cellStates.Close) {
-                            this.setCellState(posy, posx, this.cellList[0].cellStates.Open);
+                        if (this.getCellState(posy, posx) == CLOSE) {
+                            this.setCellState(posy, posx, OPEN);
                             if (this.getCellText(y, x) == "x") {
                                 bomb = true;
                             }
@@ -168,42 +271,7 @@ class Minesweeper extends Game {
             }
         }
         return bomb;
-    }
-
-    contarCeldasPendientes() {
-        for (let y = 0; y < this.height; y++) {
-            for (let x = 0; x < this.width; x++) {
-                //si esta cerrada y tiene bomb no se cuenta
-            }
-        }
-    }
-
-    // Contar minas alrededor de una celda
-    countMinesAround(x, y) {
-        let mineCount = 0;
-
-        //recorremos la cuadricula completa de la celda en cuestion
-        for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
-                const r = x + i;
-                const c = y + j;
-
-                //comprobamos que no nos salimos del tablero
-                if (r >= 0 && r < rows && c >= 0 && c < cols && board[r][c].classList.contains('mine')) {
-                    mineCount++;
-                }
-            }
-        }
-        return mineCount;
-    }
-
-    switchCellMark(x, y) {
-        if (this.getCellState(y, x) == CELL_MARKED) {
-            this.setCellState(CELL_CLOSED)
-        } else {
-            this.setCellState(CELL_MARKED);
-        }
-    }
+    }*/
 
     // drawCell(y, x) {
     //     this.context.font = "25px Arial";
@@ -253,7 +321,7 @@ class Minesweeper extends Game {
 let minesweeper = new Minesweeper("minesweeperCanvas", fetchManager);
 document.addEventListener("keydown",
     function (kd) {
-        minesweeper.updateInput(kd.key);
+        minesweeper.updateInput(kd.key); //procesar pulsaciones de teclas
     });
 
 /* que deberia tener el loop

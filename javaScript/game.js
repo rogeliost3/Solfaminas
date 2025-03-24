@@ -15,8 +15,6 @@ class Cell {
 
         this.text = text;
 
-        
-
         this.cellStates = {
             Close : 0,
             Open : 1,
