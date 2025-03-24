@@ -1,5 +1,5 @@
 class Layer {
-    constructor(chooseLayer,sudoku,minesweeper,flags,gameLayer,sudokuDifficulty,sudokuLayer,minesweeperifficulty,minesweeperLayer,flagsDifficulty,
+    constructor(chooseLayer,sudoku,minesweeper,flags,gameLayer,sudokuDifficulty, optionsSudoku, sudokuLayer,finishSudoku, checkSudoku, minesweeperifficulty,minesweeperLayer,flagsDifficulty,
                 flagsLayer,replayLayer,scoreLayer,again,points,choose){
     this.chooseLayer = document.getElementById("choose_game");
         this.sudoku = document.getElementById("sudoku");
@@ -7,7 +7,10 @@ class Layer {
         this.flags = document.getElementById("flags");
     this.gameLayer = document.getElementById("game");
         this.sudokuDifficulty = document.getElementById("difficultysudoku");
+        this.optionsSudoku = document.getElementById("optionsSudoku");
         this.sudokuLayer = document.getElementById("playsudoku");
+        this.finishSudoku = document.getElementById("finishSudoku");
+        this.checkSudoku = document.getElementById("checkSudoku");
         this.minesweeperDifficulty = document.getElementById("difficultyminesweeper");
         this.minesweeperLayer = document.getElementById("playminesweeper");
         this.flagsDifficulty = document.getElementById("difficultyflags");
@@ -23,6 +26,7 @@ class Layer {
         this.chooseLayer.style.display = "none";
         this.gameLayer.style.display = "none";
         this.sudokuDifficulty.style.display = "none";
+        this.optionsSudoku.style.display = "none";
         this.sudokuLayer.style.display = "none";
         this.minesweeperDifficulty.style.display = "none";
         this.minesweeperLayer.style.display = "none";
