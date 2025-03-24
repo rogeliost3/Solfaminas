@@ -115,6 +115,13 @@ main {
   box-shadow: 0 0 0 3px rgba(47, 101, 104, 0.4);
 }
 
+.button {
+  background-color: var(--background);
+  text-align: center;
+  width: 550px;
+  border-radius: 3em;
+}
+
 #replay {
   background-color: var(--weakSecondary);
   color: var(--background);
@@ -193,7 +200,7 @@ footer {
 @media (min-width: 1400px) {
   #sudoku, #minesweeper, #flags {
     width: 10%;
-    padding: 1%;
+    padding: .5%;
     margin: 5%;
     font-size: 1.5em;
     border: none;
