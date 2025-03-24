@@ -10,7 +10,7 @@ class Layer {
         this.optionsSudoku = document.getElementById("optionsSudoku");
         this.sudokuLayer = document.getElementById("playsudoku");
         this.finishSudoku = document.getElementById("finishSudoku");
-        this.checkSudokuSudoku = document.getElementById("checkSudoku");
+        this.checkSudoku = document.getElementById("checkSudoku");
         this.minesweeperDifficulty = document.getElementById("difficultyminesweeper");
         this.minesweeperLayer = document.getElementById("playminesweeper");
         this.flagsDifficulty = document.getElementById("difficultyflags");
