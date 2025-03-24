@@ -1,198 +1,275 @@
 :root {
-    --text: white;
-    --background: black;
-    --strongPrimary: #c38a37;
-    --weakPrimary: #eabe71;
-    --strongSecondary: #2f6568;
-    --weakSecondary: #7d9ea2;
-    --hover: lightgray;
-  }
+  --text: white;
+  --background: black;
+  --strongPrimary: #c38a37;
+  --weakPrimary: #eabe71;
+  --strongSecondary: #2f6568;
+  --weakSecondary: #7d9ea2;
+  --hover: lightgray;
+}
+
+body {
+  display: flex;
+  font-family: "Roboto Flex", sans-serif;
+  background-color: var(--background);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+} 
+
+#logo_solfaminas {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+main {
+  position: fixed;
+  top: 25%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0.5%;
+}
+
+#choose_game {
+  text-align: center;
+}
+
+#sudoku:hover, #minesweeper:hover, #flags:hover {
+  background-color: var(--weakPrimary);
+  cursor: pointer;
+}
+
+.gamebox {
+  background-color: var(--weakPrimary);
+  border: none;
+  color: var(--strongSecondary);
+  border-radius: 3em;
+  text-align: center;
+  text-decoration: none;
+  font-family: 'TT Chocolates Trial Medium', sans-serif;
+  width: 20%;
+  padding: 3%;
+}
+
+#sudoku {
+  background-color: var(--background);
+  text-align: center;
+  width: 550px;
+}
+
+#playplaysudoku, #playminesweeper , #difficultyflags {
+  margin: 0 auto;
+  position: relative;
+  top: 0;
+}
+
+#game {
+  background-color: var(black);
+  text-align: center;
+  color: var(--strongSecondary);
+  border-radius: 3em;
+  text-decoration: none;
+  font-family: 'TT Chocolates Trial Medium', sans-serif;
+
+}
+
+#difficultysudoku, #difficultyflags, #difficultyminesweeper {
+  background-color: var(--weakPrimary);
+  color: var(--strongSecondary);
+  font-family: 'TT Chocolates Trial Medium', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
   
-  body {
-    font-family: "Roboto Flex", sans-serif;
-    background-color: var(--background);
-    color: var(--text);
-    margin: 0px;
-    padding: 0px;
-    /* overflow-x: hidden;
-    overflow-y: hidden; */
-  }
-  /* ::webkit-scrollbar {initial-value: 0;  display: none}; */
+  position: fixed;
+  display: inline-block;
+  width: 50%;
+  padding: 1.2rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   
-  main{
-    top: 25%;
-    left: 25%;
- 
-  }
+  border-radius: 1.5rem;
+  box-shadow: 0.2px 4px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  cursor: pointer;
+}
 
-  #choose_game{
-    text-align: center;
-  }
+#difficultysudoku:hover, #difficultyflags:hover, #difficultyminesweeper:hover {
+  background-color: var(--strongPrimary);
+  transform: translate(-50%, -50%);
+  box-shadow: 0.4px, 8px rgba(0, 0, 0, 0.2);
+}
 
-  #sudoku:hover, #minesweeper:hover, #flags:hover{
-    background-color: var(--weakPrimary);
-    cursor: pointer;
-  }
- 
-  /* .gamebox {
-    background-color: var(--weakPrimary);
-    border: none;
-    color: var(--strongSecondary);
-    border-radius: 3em;
-    text-align: center;
-    text-decoration: none;
-    font-family: 'TT Chocolates Trial Medium';
-    width: 20%;
-    padding: 3%;
-    }
-    
-    */
-    
+.selected-difficulty, 
+#difficultysudoku:active, #difficultyflags:active, #difficultyminesweeper:active {
+  background-color: var(--strongPrimary);
+  border-color: var(--strongSecondary);
+  transform: translate(-50%,-50%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
 
-  #sudoku {
-    background-color: black;
-    text-align: center;
-    width: 550em;
-  }
+#difficultysudoku:focus, #difficultyflags:focus, #difficultyminesweeper:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(47, 101, 104, 0.4);
+}
 
-  /* Esto afecta a la dificultad: */
-  #game{
-    background-color: var(--strongPrimary);
-    text-align: center;
-    margin: 25%;
-    color: var(--strongSecondary);
-    border-radius: 3em;
-    text-align: center;
-    text-decoration: none;
-    font-family: 'TT Chocolates Trial Medium';
-  }
+.button {
+  background-color: var(--background);
+  text-align: center;
+  width: 550px;
+  border-radius: 3em;
+}
 
-  #difficultysudoku {
-    background-color: var(--weakPrimary);
-    cursor: pointer;
-    
-  }
-
-  #difficultyminesweeper {
-    background-color: var(--weakPrimary);
-    cursor: pointer;kerning: auto;
-  }
-
-  #difficultyflags {
-    background-color: var(--weakPrimary);
-    cursor: pointer;
-  }
-
-  #difficulty{
-    background-color: green;
-    text-align: center;
-  }
-
-  #replay{
-    background-color: var(--weakSecondary);
-    margin: 25%;
-    color: whitesmoke;
-    font-family: 'TT Chocolates Trial Medium';
-    border-radius: 3em;
-    text-align: center;
-    text-decoration: none;
-    padding: 4%;
-  }
-
-  footer {
-    position: absolute;
-    background-color: var(--strongPrimary);
-    display: flex;
-    flex-direction:row;
-    align-items: center;
-    width: 100%;
-    padding: .05px;
-    margin: 0%;
-    bottom: 0;
-    
-  }
-  .reglas-varias {
-    list-style: none;
-    padding-inline: 30%;
-    text-align: center;
-    margin: 1.5%;
-  }
+#replay {
+  background-color: var(--weakSecondary);
+  color: var(--background);
+  font-family: 'TT Chocolates Trial Medium', sans-serif;
+  font-weight: bold;
+  font-size: 1.1em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   
-  .icons {
-    display: flex;
-    justify-content: space-between;
-    margin: 2%;
-    
-  }
+  display: block;
+  width: fit-content;
+  margin: 2rem auto;
+  padding: 0.75rem 2rem;
   
+  border: none;
+  border-radius: 2em;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  text-decoration: none;
+  
+  transition: all 0.2s ease;
+}
+
+#replay:hover {
+  background-color: var(--strongSecondary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+#replay:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 0.2rem 0;
+  z-index: 10;
+  background-color: var(--strongPrimary);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  min-height: 40px;
+}
+
+.reglas-varias {
+  list-style: none;
+  padding-inline: 22%;
+  text-align: center;
+  margin: 15%;
+}
+
+.icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 12%;
+  height: 100%;
+}
+
+.icons img {
+  height: 24px;
+  width: auto;
+}
 
 @font-face {
-    font-family: myFirstFont;
-    src: url(sansation_light.woff);
-  }
-@media  (min-width: 1400px) {
-  #sudoku, #minesweeper, #flags{
+  font-family: 'myFirstFont';
+  src: url(sansation_light.woff);
+}
 
+@media (min-width: 1400px) {
+  #sudoku, #minesweeper, #flags {
     width: 10%;
-    padding:1%;
+    padding: .5%;
     margin: 5%;
     font-size: 1.5em;
-    border:none;
+    border: none;
     border-radius: 2em;
     background-color: var(--strongPrimary);
     color: var(--text);
-}
-
-}
-
-@media  (max-width:1400px) and (min-width: 360px) {
-  #sudoku, #minesweeper, #flags{
-    
-    width: 10%;
-    padding:10%;
+  }
+  
+  #playsudoku, #playflags, #playminesweeper { 
+    width: auto; 
+    padding: 1%; 
     margin: 5%;
-    font-size: 0.1em;
-    border:none;
-    border-radius: 5em;
+    font-size: 1.5em;
+    font-family: 'TT Chocolates Trial Medium', sans-serif;
+    border: none;
+    border-radius: 3em;
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--background);
+    color: var(--text);
+  }
+}
+
+@media (max-width: 1399px) and (min-width: 360px) {
+  #playsudoku, #playflags, #playminesweeper { 
+    width: auto; 
+    padding: 1%;
+    margin: 5%;
+    font-size: 1.2em;
+    font-family: 'TT Chocolates Trial Medium', sans-serif;
+    border-radius: 3em;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    background-color: var(--background);
+    color: var(--text);
+  }
+  
+  #sudoku, #minesweeper, #flags {
+    width: 15%;
+    padding: 2%;
+    margin: 3%;
+    font-size: 1em;
+    border: none;
+    border-radius: 2em;
     background-color: var(--strongPrimary);
     color: var(--text);
   }
 }
 
-@media  (min-width: 1400px) {
-  #playsudoku, #minesweeper, #flags {
-
-    position: absolute;
-    width: 0%;
-    padding:0%;
-    margin: 5%;
-    font-size: 1.5em;
-    font-family: 'TT Chocolates Trial Medium';
-    border-radius: 3em;
-    text-align: center;
-    text-decoration: none;
-    border:none;
-    border-radius: 5em;
+@media (max-width: 359px) {
+  #sudoku, #minesweeper, #flags {
+    width: 30%;
+    padding: 2%;
+    margin: 2%;
+    font-size: 0.9em;
+    border-radius: 1.5em;
+    background-color: var(--strongPrimary);
+    color: var(--text);
+  }
+  
+  #playsudoku, #playflags, #playminesweeper {
+    width: 80%;
+    padding: 2%;
+    margin: 10% auto;
+    font-size: 1em;
+    border-radius: 2em;
     background-color: var(--background);
-    color: whitesmoke;
-}
-
-}
-
-@media  (max-width:1400px) and (min-width: 360px) {
-  #playsudoku, #minesweeper, #flags {
-    position: absolute;
-    width: 0%;
-    padding:0%;
-    margin: 5%;
-    font-size: 1.5em;
-    font-family: 'TT Chocolates Trial Medium';
-    border-radius: 3em;
-    text-align: center;
-    text-decoration: none;
-    border:none;
-    border-radius: 5em;
-    background-color: var(--background);
-    color: whitesmoke;
+    color: var(--text);
+    display: block;
   }
 }
