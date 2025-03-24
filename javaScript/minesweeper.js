@@ -84,7 +84,6 @@ class Minesweeper extends Game {
             }
         }
         console.log("Row: "+this.getRow()+" col: "+this.getCol());
-        console.log("cell.getState(): " + this.getState());
     }
 
     //procesar pulsaciones de teclas
