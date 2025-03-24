@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="icon" sizes="16x16 32x32 48x48" type="image/png" href="../assets/minami.png" />
-
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="icon" sizes="16x16 32x32 48x48" type="image/png" href="../assets/Recurso_24.svg" />
+        
 </head>
 
 <body>
 
     <header>
         <div id="logo_solfaminas">
-            <a href="index.html"><img src="../assets/solfami.png" alt="logo_icon" style="width: 5em;"></a>
+            <a href="index.html"><img src="../assets/Recurso_24.svg" alt="logo_icon" style="width: 12em;"></a>
         </div>
     </header>
     <main>
         <h1 style="text-align:center;">SOLFAMINAS</h1>
-        <p style="text-align:center;">Elige tu juego</p>
         <section id="choose_game">
+            <p style="text-align:center;">Elige tu juego</p>
             <div id="gameList">
                 <button id="sudoku">Sudoku</button>
                 <button id="minesweeper">Buscaminas</button>
@@ -31,46 +30,52 @@
         <section id="game">
             <div id="difficultysudoku">
                 <h2>Elige la dificultad del sudoku</h2>
-                <p id="sudokuselector">Selector de dificultad</p>
+                <button class="easy">EASY</button>
+                <button class="normal">NORMAL</button>
+                <button class="hard">HARD</button>
+            </div>
+            <div id="optionsSudoku">
+                <button id="checkSudoku">COMPROBAR</button>
+                <button id="finishSudoku">FINALIZAR</button>
             </div>
             <div id="playsudoku">
-                <p>sudoku</p>
                 <canvas id="sudokuCanvas"></canvas>
             </div>
-
             <div id="difficultyminesweeper">
                 <h2>Elige la dificultad de las minas</h2>
-                <p id="mineselector">Selector de dificultad</p>
+                <button class="easy">EASY</button>
+                <button class="normal">NORMAL</button>
+                <button class="hard">HARD</button>
             </div>
             <div id="playminesweeper">
-                <p>minesweeper</p>
+                <canvas id="minesweeperCanvas"></canvas>
             </div>
-
             <div id="difficultyflags">
                 <h2>Elige la dificultad de las banderas</h2>
-                <p id="flagsselector">Selector de dificultad</p>
+                <button class="easy">EASY</button>
+                <button class="normal">NORMAL</button>
+                <button class="hard">HARD</button>
             </div>
             <div id="playflags">
-                <p>flags</p>
             </div>
 
         </section>
 
         <section id="replay">
             <h2>¿Quieres volver a jugar?</h2>
-            <button id="otravez">VOLVER A JUGAR</button>
-            <button id="puntuacion">VER CLASIFICAION</button>
-            <button id="home">CAMBIAR JUEGO</button>
+            <button id="again">VOLVER A JUGAR</button>
+            <button id="points">VER CLASIFICACIÓN</button>
+            <button id="choose">CAMBIAR JUEGO</button>
         </section>
 
         <section id="score">
-            <h2>Clasificación</h2>
+            <h2>¿PERO YA HAS JUGADO ALGO COMO PARA QUE SALGA PUNTUACIÓN?</h2>
             <div id="clasification">clasificacion</div>
             <button id="volver">Seguir jugando</button>
         </section>
 
     </main>
-
+    
     <footer>
 
         <p>GRUPO SOLFAMINAS 2025 &copy;</p>
@@ -92,8 +97,10 @@
             </li>
         </ul>
     </footer>
-    <script type="module" src="../javaScript/main.js"></script>
     <script type="module" src="../javaScript/sudoku.js"></script>
+    <script type="module" src="../javaScript/minesweeper.js"></script>
+    <script type="module" src="../javaScript/main.js"></script>
+    
 </body>
 
 </html>

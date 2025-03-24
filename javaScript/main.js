@@ -1,205 +1,73 @@
-//CAPTAMOS LAS CAPAS POR ID
-const chooseLayer = document.getElementById("choose_game");
-    const sudoku = document.getElementById("sudoku");
-    const minesweeper = document.getElementById("minesweeper");
-    const flags = document.getElementById("flags");
-const gameLayer = document.getElementById("game");
-    const sudokuDifficulty = document.getElementById("difficultysudoku");
-    const sudokuLayer = document.getElementById("playsudoku");
-    const minesweeperifficulty = document.getElementById("difficultyminesweeper");
-    const minesweeperLayer = document.getElementById("playminesweeper");
-    const flagsDifficulty = document.getElementById("difficultyflags");
-    const flagsLayer = document.getElementById("playflags");
-const replayLayer = document.getElementById("replay");
-const scoreLayer = document.getElementById("score");
+import{Layer} from "./layerClass.js";
+import{sudoku} from "./sudoku.js"
 
-//ESTABLECEMOS LA VISIBILIDAD INICIAL DE LAS CAPAS
-chooseLayer.style.visibility = "visible";
-gameLayer.style.visibility = "hidden";
-sudokuDifficulty.style.visibility = "hidden";
-sudokuLayer.style.visibility = "hidden";
-minesweeperifficulty.style.visibility = "hidden";
-minesweeperLayer.style.visibility = "hidden";
-flagsDifficulty.style.visibility = "hidden";
-flagsLayer.style.visibility = "hidden";
-replayLayer.style.visibility = "hidden";
-scoreLayer.style.visibility = "hidden";
+const layer = new Layer(); 
+let gameChoosed = "";
 
-//CREAMOS EL FLUJO DE CAPAS
-//Cuando elegimos el sudoku
-sudoku.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "visible";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "hidden";
+function main(){
+    const layer = new Layer();
+    layer.hideAll();
+    layer.begin();
+}
+main();
+
+
+//FUNCIONAMIENTO DE LA PARTE DEL SUDOKU
+layer.sudoku.addEventListener('click', (e) => {
+    layer.showLayer(layer.sudokuDifficulty);
+});
+layer.sudokuDifficulty.addEventListener('click', (e) => {
+    layer.showLayer(layer.sudokuLayer);
+    layer.optionsSudoku.style.display = "block";
+    gameChoosed = "sudoku";
+});
+layer.finishSudoku.addEventListener('click', (e) => {
+    layer.showLayer(layer.replayLayer);
 });
 
-sudokuselector.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.setAttribute = ("disabled",true);
-    sudokuLayer.style.visibility = "visible";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "hidden";
+layer.checkSudoku.addEventListener('click',(e)=> {
+    sudoku.checkIfCorrect();
 });
 
-sudokuLayer.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "visible";
-    scoreLayer.style.visibility = "hidden";
-})
+//funcion para resetear el juego
 
-//Cuando elegimos el buscaminas
-minesweeper.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "visible";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "hidden";
+
+//FUNCIONAMIENTO DE LA PARTE DEL MINESWEEPER
+layer.minesweeper.addEventListener('click', (e) => {
+    layer.showLayer(layer.minesweeperDifficulty);
+});
+layer.minesweeperDifficulty.addEventListener('click', (e) => {
+    layer.showLayer(layer.minesweeperLayer);
+    gameChoosed = "minesweeper";
+});
+layer.minesweeperLayer.addEventListener('click', (e) => {
+    layer.showLayer(layer.replayLayer);
 });
 
-mineselector.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.setAttribute = ("disabled",true);
-    minesweeperLayer.style.visibility = "visible";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "hidden";
+//FUNCIONAMIENTO DE LA PARTE DE LAS FLAGS
+layer.flags.addEventListener('click', (e) => {
+    layer.showLayer(layer.flagsDifficulty);
+});
+layer.flagsDifficulty.addEventListener('click', (e) => {
+    layer.showLayer(layer.flagsLayer);
+    gameChoosed = "flags";
+});
+layer.flagsLayer.addEventListener('click', (e) => {
+    layer.showLayer(layer.replayLayer);
 });
 
-minesweeperLayer.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "visible";
-    scoreLayer.style.visibility = "hidden";
-})
-
-//Cuando elegimos las banderas
-flags.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "visible";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "hidden";
+//FUNCIONAMIENTO DE LA CAPA REPLAY
+layer.again.addEventListener('click', (e) => {
+    layer.replayChoosenGame(gameChoosed);
 });
 
-flagsselector.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.setAttribute = ("disabled",true);
-    flagsLayer.style.visibility = "visible";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "hidden";
+//FUNCIONAMIENTO DE LA CAPA PUNTUACION
+layer.points.addEventListener('click', (e) => {
+    layer.showLayer(layer.scoreLayer);
 });
 
-flagsLayer.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "visible";
-    scoreLayer.style.visibility = "hidden";
-})
-
-//Cuando se acaba el juego
-const finjuego = document.getElementById('otravez');
-finjuego.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "visible";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "hidden";
-});
-
-const puntuacion = document.getElementById('puntuacion');
-puntuacion.addEventListener('click', function() {
-    chooseLayer.style.visibility = "hidden";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "visible";
-});
-
-const volver = document.getElementById('volver');
-volver.addEventListener('click',function() {
-    chooseLayer.style.visibility = "visible";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "hidden";
-})
-
-const home = document.getElementById('home');
-home.addEventListener('click', function() {
-    chooseLayer.style.visibility = "visible";
-    gameLayer.style.visibility = "hidden";
-    sudokuDifficulty.style.visibility = "hidden";
-    sudokuLayer.style.visibility = "hidden";
-    minesweeperifficulty.style.visibility = "hidden";
-    minesweeperLayer.style.visibility = "hidden";
-    flagsDifficulty.style.visibility = "hidden";
-    flagsLayer.style.visibility = "hidden";
-    replayLayer.style.visibility = "hidden";
-    scoreLayer.style.visibility = "hidden";
+//FUNCIONAMIENTO DE LA CAPA ELEGIR
+layer.choose.addEventListener('click', (e) => {
+    layer.showLayer(layer.chooseLayer);
 });
 

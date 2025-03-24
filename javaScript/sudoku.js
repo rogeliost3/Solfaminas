@@ -1,32 +1,80 @@
 import { fetchManager } from "./api.js"
-import { Game } from "./game.js"
+import { Game, Cell } from "./game.js"
 class Sudoku extends Game {
     constructor(name, fetchManager) {
         super(name);
         this.initGame(fetchManager, fetchManager.gameTypes.Sudoku);
+        this.canvasFather = document.getElementById("playsudoku");
+        this.numbers = "123456789";
+
+        this.correctCellList = [];
     }
 
+
     generateGame() {
-        this.context.font = "25px Arial";
-        for (let width = 0; width < 9; width++) {
-            for (let height = 0; height < 9; height++) {
+        let cellList = [];
+        for (let width = 0; width < this.size; width++) {
+            for (let height = 0; height < this.size; height++) {
+                cellList.push(new Cell(
+                    this.canvas, this.context,
+                    this.boxSize, this.offset,
+                    this.data.task[width][height] != 0 ? this.data.task[width][height] : "",
+                    width, height,
+                    this.data.task[width][height] == 0 ? this.boxColor : "gray", this.textColor
+                ));
 
-                this.context.fillStyle = this.boxColor;
-                this.context.fillRect((
-                    this.boxSize + this.offset) * width + this.offset, 
-                    (this.boxSize + this.offset) * height + this.offset, this.boxSize, this.boxSize);
-
-                this.context.fillStyle = this.textColor;
-                if (this.data.task[height][width] != 0) {
-                    this.context.fillText(
-                        this.data.task[height][width], 
-                        (this.boxSize + this.offset) * width + (this.boxSize / 2), 
-                        (this.boxSize + this.offset) * height + (this.boxSize));
-                }
+                this.correctCellList.push(new Cell(
+                    this.canvas, this.context,
+                    this.boxSize, this.offset,
+                    this.data.grid[width][height],
+                    width, height,
+                    "blue", this.textColor
+                ));
             }
-
         }
+        return cellList;
+    }
+
+    printYourMama() {
+        console.log("Your mama");
+    }
+    updateInput(key) {
+        this.updateSelectedCell(key);
+        this.changeNumber(key);
+    }
+
+    changeNumber(key) {
+        if (this.numbers.includes(key) && this.getCell(this.selectedCell[1], this.selectedCell[0]).firstColor != "gray") {
+            this.setCellText(this.selectedCell[1], this.selectedCell[0], key);
+        }
+    }
+
+    checkIfCorrect() {
+        if (this.compareGrids()) {
+            return ("Sudoku is correctly Finished");
+        } else {
+            return ("There is an error in the sudoku");
+        }
+
+    }
+
+    compareGrids() {
+        for(let index = 0; index < this.cellList.length; index++) {
+            if(this.cellList[index].text != this.correctCellList[index].text) {
+                console.log(index);
+                console.log(this.cellList[index].text );
+                console.log(this.correctCellList[index].text );
+                return false;
+            }
+        }
+        return true;
     }
 }
 
-let sudoku = new Sudoku("sudokuCanvas",fetchManager);
+let sudoku = new Sudoku("sudokuCanvas", fetchManager);
+document.addEventListener(
+    "keydown", function (kd) {
+        sudoku.updateInput(kd.key);
+    });
+
+export { sudoku }
