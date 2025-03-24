@@ -160,6 +160,7 @@ main {
 footer {
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
   padding: 0.2rem 0;
   z-index: 10;
@@ -170,11 +171,17 @@ footer {
   justify-content: space-between;
   height: 40px;
   min-height: 40px;
+  box-sizing: border-box; 
+}
+
+footer > * {
+  padding-left: 2%;
+  padding-right: 10%;
 }
 
 .reglas-varias {
   list-style: none;
-  padding-inline: 22%;
+  padding-inline: 50%;
   text-align: center;
   margin: 15%;
 }
@@ -183,7 +190,7 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 12%;
+  margin: 10%;
   height: 100%;
 }
 
@@ -211,8 +218,6 @@ footer {
   
   #playsudoku, #playflags, #playminesweeper { 
     width: auto; 
-    padding: 1%; 
-    margin: 5%;
     font-size: 1.5em;
     font-family: 'TT Chocolates Trial Medium', sans-serif;
     border: none;
@@ -247,6 +252,14 @@ footer {
     background-color: var(--strongPrimary);
     color: var(--text);
   }
+
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.2rem 0;
+}
 }
 
 @media (max-width: 359px) {
