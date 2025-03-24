@@ -17,12 +17,15 @@ layer.sudoku.addEventListener('click', (e) => {
 });
 layer.sudokuDifficulty.addEventListener('click', (e) => {
     layer.showLayer(layer.sudokuLayer);
+    layer.optionsSudoku.style.display = "block";
     gameChoosed = "sudoku";
-    
 });
-layer.sudokuLayer.addEventListener('click', (e) => {
+layer.finishSudoku.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
 });
+
+//funcion para resetear el juego
+
 
 //FUNCIONAMIENTO DE LA PARTE DEL MINESWEEPER
 layer.minesweeper.addEventListener('click', (e) => {
