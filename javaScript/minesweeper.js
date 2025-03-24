@@ -83,13 +83,12 @@ class Minesweeper extends Game {
                 }
             }
         }
-        console.log("cell.getState(): " + aux);
+        console.log("Row: "+this.getRow()+" col: "+this.getCol());
+        console.log("cell.getState(): " + this.getState());
     }
 
     //procesar pulsaciones de teclas
     updateInput(key) {
-        console.log("Row: "+this.getRow()+" col: "+this.getCol());
-
         // si el juego esta cargado y activo
         if (this.hasFinishCreatingGame && this.canvasFather.style.visibility != "hidden") {
 
@@ -162,11 +161,11 @@ class Minesweeper extends Game {
     }
 
     switchCellMark(y, x) {
-        const state=this.getCellState(y, x);
+        const state=this.getCellState(x, y);
         if (state == MARKED) {
-            this.setCellState(y, x, CLOSE);
+            this.setCellState(x, y, CLOSE);
         } else {
-            this.setCellState(y, x, MARKED);
+            this.setCellState(x, y, MARKED);
         }
     }
 
@@ -203,27 +202,27 @@ class Minesweeper extends Game {
             for (let dx = -1; dx <= 1; dx++) {
 
                 //calcula la fila y columna de la celda
-                const r = row + dy;
-                const c = col + dx;
+                const y = row + dy;
+                const x = col + dx;
 
                 //Si celda esta fuera del tablero no la comprueba
-                if (r >= 0 && r < this.height && c >= 0 && c < this.width) {
+                if (y >= 0 && y < this.height && x >= 0 && x < this.width) {
 
                     //mirar estado de la celda
-                    const state = this.getCellState(r, c);
+                    const state = this.getCellState(x, y);
 
                     //si ya está abierta no la procesa
                     if (state == this.CLOSE) { //TODO que pasa con las marcadas, se abren o se dejan marcadas?
 
                         //sino, la abre 
-                        this.setCellState(this.OPEN);
+                        this.setCellState(x, y, this.OPEN);
 
                         //Al ser abierta mirar si su cuadricula tiene alguna mina
                         //si la tiene no hace nada ya que el proposito de esta funcion es solo revelar las vacias
-                        if (countMinesAround(r, c) === 0) {
+                        if (countMinesAround(y, x) === 0) {
 
                             //si la cuadricula no tiene mina, abrir recursivamente cada celda alrededor de ella 
-                            this.revealNeightborCells(r, c);
+                            this.revealNeightborCells(y, x);
                         }
                     }
                 }
