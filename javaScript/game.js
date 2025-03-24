@@ -5,6 +5,7 @@ class Cell {
         this.x = x;
         this.y = y;
         this.color = color;
+        this.firstColor = color;
         this.textColor = textColor;
 
         this.canvas = canvas;
@@ -73,14 +74,14 @@ class Cell {
 }
 
 class Game {
-    constructor(name, boxColor = "white", textColor = "black", selectColor = "green") {
+    constructor(name, boxColor = "#D0CEBF", textColor = "black", selectColor = "#F76F53") {
         this.boxColor = boxColor;
         this.selectBoxColor = selectColor;
         this.textColor = textColor;
         //Set Canvas
         this.name = name;
         this.canvas = document.getElementById(name);
-        this.canvas.style.backgroundColor = "red";
+        this.canvas.style.backgroundColor = "#1F1F1F";
         //Set Context of Canvas
         this.context = this.canvas.getContext('2d');
 
@@ -120,7 +121,7 @@ class Game {
 
     updateSelectedCell(key) {
         if (this.hasFinishCreatingGame && this.canvasFather.style.display != "none") {
-            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.boxColor);
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0],this.getCell(this.selectedCell[1],this.selectedCell[0]).firstColor);
             switch (key) {
                 case "ArrowUp":
                     this.selectedCell[1]--; 
@@ -199,6 +200,10 @@ class Game {
 
     getCellText(x,y) {
         return this.cellList[x + this.size * y].text;
+    }
+
+    getCell(x,y) {
+        return this.cellList[x + this.size * y];
     }
     
 }

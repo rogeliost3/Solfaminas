@@ -227,8 +227,6 @@ footer {
 @media (max-width: 1399px) and (min-width: 360px) {
   #playsudoku, #playflags, #playminesweeper { 
     width: auto; 
-    padding: 1%;
-    margin: 5%;
     font-size: 1.2em;
     font-family: 'TT Chocolates Trial Medium', sans-serif;
     border-radius: 3em;
