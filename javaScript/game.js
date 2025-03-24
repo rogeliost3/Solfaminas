@@ -74,14 +74,14 @@ class Cell {
 }
 
 class Game {
-    constructor(name, boxColor = "white", textColor = "black", selectColor = "green") {
+    constructor(name, boxColor = "#D0CEBF", textColor = "black", selectColor = "#F76F53") {
         this.boxColor = boxColor;
         this.selectBoxColor = selectColor;
         this.textColor = textColor;
         //Set Canvas
         this.name = name;
         this.canvas = document.getElementById(name);
-        this.canvas.style.backgroundColor = "red";
+        this.canvas.style.backgroundColor = "#1F1F1F";
         //Set Context of Canvas
         this.context = this.canvas.getContext('2d');
 
