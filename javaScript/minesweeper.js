@@ -67,8 +67,8 @@ class Minesweeper extends Game {
     renderGrid() {
         this.context.font = "25px Arial";
         let aux = "";
-        console.log("Row: "+this.getRow()+" Col: "+this.getCol()+" state:"+this.getCellState(this.getRow(),this.getCol()));
-        console.log("mina: "+this.getCellText(this.getRow(),this.getCol()));
+        //console.log("Row: "+this.getRow()+" Col: "+this.getCol()+" state:"+this.getCellState(this.getRow(),this.getCol()));
+        //console.log("mina: "+this.getCellText(this.getRow(),this.getCol()));
         for (let cell of this.cellList) {
 
             //si la celda tiene bandera se considera aún cerrada
@@ -148,12 +148,12 @@ class Minesweeper extends Game {
             if (key == " ") {
                 if (state == CLOSE) {
                     // const minesAround = this.countMinesAround(x, y);
-                    console.log("content: "+content);
+                    //console.log("content: "+content);
                     if (content != "x") { //no es mina
                         if (content!="o") { //es un numero
                             this.setCellState(y, x, this.OPEN);
                         } else {
-                            console.log("llamando funcion recursiva x:"+x+" y:"+y);
+                            //console.log("llamando funcion recursiva x:"+x+" y:"+y);
                             this.revealNeightborCells(x, y);
                         }
                     } else {
@@ -209,7 +209,7 @@ class Minesweeper extends Game {
     // Revelar celdas vacías o con numeros adyacentes a row,col
     // Ojo: row,col ya se ha mirado antes de llamar a esta funcion y ya sabemos que no tiene mina.
     revealNeightborCells(col, row) {
-        console.log("funcion recursiva en x:"+col+" y:"+row);
+        //console.log("funcion recursiva en x:"+col+" y:"+row);
         for (let dy = -1; dy <= 1; dy++) {
             for (let dx = -1; dx <= 1; dx++) {
 
@@ -219,10 +219,10 @@ class Minesweeper extends Game {
 
                 //Si celda esta fuera del tablero no la comprueba
                 if (y >= 0 && y < this.height && x >= 0 && x < this.width) {
-                    console.log("dentro del board");
+                    //console.log("dentro del board");
                     //mirar estado de la celda
                     const state = this.getCellState(y, x);
-                    console.log("state: "+state);
+                    //console.log("state: "+state);
 
                     //si ya está abierta no la procesa
                     if (state === 0) { //TODO que pasa con las marcadas, se abren o se dejan marcadas?
@@ -230,7 +230,7 @@ class Minesweeper extends Game {
                         //sino, la abre 
                         this.setCellState(y, x, this.OPEN); 
 
-                        console.log("abre la celda x: "+x+" y: "+y);
+                        //console.log("abre la celda x: "+x+" y: "+y);
 
                         //Al ser abierta mirar si su cuadricula tiene alguna mina
                         //si la tiene no hace nada ya que el proposito de esta funcion es solo revelar las vacias
@@ -241,7 +241,7 @@ class Minesweeper extends Game {
                         }
                     }
                 } else {
-                    console.log("fuera del board");
+                    //console.log("fuera del board");
                 }
             }
         }
@@ -294,7 +294,7 @@ class Minesweeper extends Game {
     //     let color=this.boxColor;
     //     if (y==this.starty && x==this.startx) {
     //         color="green";
-    //         console.log("posicion inicial green");
+    //         //console.log("posicion inicial green");
     //     }
     //     this.context.fillStyle = color;
 
