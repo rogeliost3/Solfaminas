@@ -17,8 +17,8 @@
         </div>
     </header>
     <main>
-        <h1 style="text-align:center;">SOLFAMINAS</h1>
         <section id="choose_game">
+            <h1 style="text-align:center;">SOLFAMINAS</h1>
             <p style="text-align:center;">Elige tu juego</p>
             <div id="gameList">
                 <button id="sudoku">Sudoku</button>
@@ -30,9 +30,9 @@
         <section id="game">
             <div id="difficultysudoku">
                 <h2>Elige la dificultad del sudoku</h2>
-                <button class="easy">EASY</button>
-                <button class="normal">NORMAL</button>
-                <button class="hard">HARD</button>
+                <button id="sudokueasy">EASY</button>
+                <button id="sudokunormal">NORMAL</button>
+                <button id="sudokuhard">HARD</button>
             </div>
             <div id="optionsSudoku">
                 <button id="checkSudoku">COMPROBAR</button>
@@ -41,22 +41,33 @@
             <div id="playsudoku">
                 <canvas id="sudokuCanvas"></canvas>
             </div>
+
             <div id="difficultyminesweeper">
                 <h2>Elige la dificultad de las minas</h2>
-                <button class="easy">EASY</button>
-                <button class="normal">NORMAL</button>
-                <button class="hard">HARD</button>
+                <button id="mineeasy">EASY</button>
+                <button id="minenormal">NORMAL</button>
+                <button id="minehard">HARD</button>
+            </div>
+            <div id="optionsMinesweeper">
+                <button id="checkMinesweeper">COMPROBAR</button>
+                <button id="finishMinesweeper">FINALIZAR</button>
             </div>
             <div id="playminesweeper">
                 <canvas id="minesweeperCanvas"></canvas>
             </div>
+
             <div id="difficultyflags">
                 <h2>Elige la dificultad de las banderas</h2>
-                <button class="easy">EASY</button>
-                <button class="normal">NORMAL</button>
-                <button class="hard">HARD</button>
+                <button id="flagseasy">EASY</button>
+                <button id="flagsnormal">NORMAL</button>
+                <button id="flagshard">HARD</button>
+            </div>
+            <div id="optionsFlags">
+                <button id="checkFlags">COMPROBAR</button>
+                <button id="finishFlags">FINALIZAR</button>
             </div>
             <div id="playflags">
+                <img src="./assets/banderas.png"/>
             </div>
 
         </section>
