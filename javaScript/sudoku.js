@@ -35,9 +35,6 @@ class Sudoku extends Game {
         return cellList;
     }
 
-    printYourMama() {
-        console.log("Your mama");
-    }
     updateInput(key) {
         this.updateSelectedCell(key);
         this.changeNumber(key);
@@ -49,11 +46,18 @@ class Sudoku extends Game {
         }
     }
 
+    resetGame() {
+        this.correctCellList = [];
+        this.cellList = [];
+        this.canvasFather = document.getElementById("playsudoku");
+        this.initGame(fetchManager, fetchManager.gameTypes.Sudoku);
+    }
+
     checkIfCorrect() {
         if (this.compareGrids()) {
-            return ("Sudoku is correctly Finished");
+            alert("Sudoku is correctly Finished");
         } else {
-            return ("There is an error in the sudoku");
+            alert("There is an error in the sudoku");
         }
 
     }
