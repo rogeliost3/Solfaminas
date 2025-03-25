@@ -1,5 +1,6 @@
 import{Layer} from "./layerClass.js";
-import{sudoku} from "./sudoku.js"
+import{sudoku} from "./sudoku.js";
+import{minesweeper} from "./minesweeper.js";
 
 const layer = new Layer(); 
 let gameChoosed = "";
@@ -16,7 +17,10 @@ main();
 //FUNCIONAMIENTO DE LA PARTE DEL SUDOKU
 layer.sudoku.addEventListener('click', (e) => {
     layer.showLayer(layer.sudokuDifficulty);
-    layer.optionsSudoku.removeChild(layer.difficulty);
+    if(layer.difficulty) {
+        layer.optionsSudoku.removeChild(layer.difficulty);
+    }
+    
 });
 layer.sudokueasy.addEventListener('click', (e) => {
     layer.showLayer(layer.sudokuLayer);
@@ -42,6 +46,8 @@ layer.sudokuhard.addEventListener('click', (e) => {
 
 layer.finishSudoku.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
+    layer.optionsSudoku.removeChild(layer.difficulty);
+    sudoku.resetGame();
 });
 layer.checkSudoku.addEventListener('click',(e)=> {
     sudoku.checkIfCorrect();
@@ -51,7 +57,9 @@ layer.checkSudoku.addEventListener('click',(e)=> {
 //FUNCIONAMIENTO DE LA PARTE DEL MINESWEEPER
 layer.minesweeper.addEventListener('click', (e) => {
     layer.showLayer(layer.minesweeperDifficulty);
-    layer.optionsMinesweeper.removeChild(layer.difficulty); 
+    if(layer.difficulty) {
+        layer.optionsMinesweeper.removeChild(layer.difficulty); 
+    }
 });
 
 layer.mineeasy.addEventListener('click', (e) => {
@@ -77,6 +85,8 @@ layer.minehard.addEventListener('click', (e) => {
 });
 layer.finishMinesweeper.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
+    layer.optionsMinesweeper.removeChild(layer.difficulty);
+    minesweeper.resetGame(); 
 });
 layer.checkMinesweeper.addEventListener('click',(e)=> {
     minesweeper.checkIfCorrect();
@@ -108,8 +118,12 @@ layer.flagshard.addEventListener('click', (e) => {
     level = "hard";
     layer.showDifficulty(level,gameChoosed);
 });
-layer.flagsLayer.addEventListener('click', (e) => {
+layer.finishFlags.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
+    layer.optionsFlags.removeChild(layer.difficulty); 
+});
+layer.checkFlags.addEventListener('click',(e)=> {
+    flags.checkIfCorrect();
 });
 
 //FUNCIONAMIENTO DE LA CAPA REPLAY
