@@ -42,6 +42,7 @@ layer.sudokuhard.addEventListener('click', (e) => {
 
 layer.finishSudoku.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
+    layer.optionsSudoku.removeChild(layer.difficulty);
     sudoku.resetGame();
 });
 layer.checkSudoku.addEventListener('click',(e)=> {
@@ -78,6 +79,7 @@ layer.minehard.addEventListener('click', (e) => {
 });
 layer.finishMinesweeper.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
+    layer.optionsMinesweeper.removeChild(layer.difficulty); 
 });
 layer.checkMinesweeper.addEventListener('click',(e)=> {
     minesweeper.checkIfCorrect();
@@ -109,8 +111,12 @@ layer.flagshard.addEventListener('click', (e) => {
     level = "hard";
     layer.showDifficulty(level,gameChoosed);
 });
-layer.flagsLayer.addEventListener('click', (e) => {
+layer.finishFlags.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
+    layer.optionsFlags.removeChild(layer.difficulty); 
+});
+layer.checkFlags.addEventListener('click',(e)=> {
+    flags.checkIfCorrect();
 });
 
 //FUNCIONAMIENTO DE LA CAPA REPLAY
