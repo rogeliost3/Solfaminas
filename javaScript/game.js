@@ -1,7 +1,7 @@
 import { fetchManager } from "./api.js"
 
 class Cell {
-    constructor(canvas,context,size,offset,text = "",x = 0,y = 0, color = "white", textColor = "black") {
+    constructor(canvas, context, size, offset, text = "", x = 0, y = 0, color = "white", textColor = "black") {
         this.x = x;
         this.y = y;
         this.color = color;
@@ -17,9 +17,9 @@ class Cell {
         this.text = text;
 
         this.cellStates = {
-            Close : 0,
-            Open : 1,
-            Marked : 2
+            Close: 0,
+            Open: 1,
+            Marked: 2
         }
 
         this.cellState = this.cellStates.Close;
@@ -48,26 +48,26 @@ class Cell {
         return this.cellState;
     }
 
-    
+
 
     renderCell() {
         this.context.fillStyle = this.color;
-                this.context.fillRect(
-                    (this.size + this.offset) * this.x + this.offset,
-                    (this.size + this.offset) * this.y + this.offset,
-                    this.size, this.size);
+        this.context.fillRect(
+            (this.size + this.offset) * this.x + this.offset,
+            (this.size + this.offset) * this.y + this.offset,
+            this.size, this.size);
     }
 
     renderText(flag) {
         this.context.fillStyle = this.textColor;
-                    this.context.fillText(
-                        flag=="" ? this.text : "F",
-                        (this.size + this.offset) * this.x + (this.size / 2), 
-                        (this.size + this.offset) * this.y + (this.size));
-                
+        this.context.fillText(
+            flag == "" ? this.text : "F",
+            (this.size + this.offset) * this.x + (this.size / 2),
+            (this.size + this.offset) * this.y + (this.size));
+
     }
 
-    render(flag="") {
+    render(flag = "") {
         this.renderCell();
         this.renderText(flag);
     }
@@ -101,7 +101,7 @@ class Game {
 
         this.cellList = [];
 
-        this.selectedCell = [0,0];
+        this.selectedCell = [0, 0];
 
         this.hasFinishCreatingGame = false;
     }
@@ -121,12 +121,12 @@ class Game {
 
     updateSelectedCell(key) {
         if (this.hasFinishCreatingGame && this.canvasFather.style.display != "none") {
-            this.setCellColor(this.selectedCell[1], this.selectedCell[0],this.getCell(this.selectedCell[1],this.selectedCell[0]).firstColor);
+            this.setCellColor(this.selectedCell[1], this.selectedCell[0], this.getCell(this.selectedCell[1], this.selectedCell[0]).firstColor);
             switch (key) {
                 case "ArrowUp":
-                    this.selectedCell[1]--; 
-                    if (this.selectedCell[1] < 0) { 
-                        this.selectedCell[1] = this.size - 1; 
+                    this.selectedCell[1]--;
+                    if (this.selectedCell[1] < 0) {
+                        this.selectedCell[1] = this.size - 1;
                     }
                     break;
                 case "ArrowDown":
@@ -136,7 +136,7 @@ class Game {
                     }
                     break;
                 case "ArrowRight":
-                    this.selectedCell[0]++; 
+                    this.selectedCell[0]++;
                     if (this.selectedCell[0] >= this.size) {
                         this.selectedCell[0] = 0;
                     }
@@ -154,58 +154,64 @@ class Game {
 
     generateGame() {
         let cellList = [];
-        for(let width = 0; width < this.size; width++) {
-            for(let height = 0; height < this.size; height++) {
+        for (let width = 0; width < this.size; width++) {
+            for (let height = 0; height < this.size; height++) {
                 cellList.push(new Cell(
                     this.canvas, this.context,
                     this.boxSize, this.offset,
                     "", width, height,
-                    this.boxColor,this.textColor
+                    this.boxColor, this.textColor
                 ));
             }
         }
         return cellList;
     }
 
+    resetGame() {
+        this.cellList = [];
+        this.selectedCell = [0, 0];
+        this.hasFinishCreatingGame = false;
+    }
+
     renderGrid() {
         this.context.font = "25px Arial";
-        for(let cell of this.cellList) {
+        for (let cell of this.cellList) {
             cell.render();
         }
     }
 
-    renderCell(x,y) {
+    renderCell(x, y) {
         this.cellList[x + this.size * y].render();
     }
 
-    setCellText(x,y,text) {
+    setCellText(x, y, text) {
         this.cellList[x + this.size * y].setText(text);
     }
 
-    setCellTextColor(x,y,color) {
+    setCellTextColor(x, y, color) {
         this.cellList[x + this.size * y].setTextColor(color);
     }
 
-    setCellColor(x,y,color) {
+    setCellColor(x, y, color) {
         this.cellList[x + this.size * y].setColor(color);
     }
 
-    setCellState(x,y,state) {
+    setCellState(x, y, state) {
         this.cellList[x + this.size * y].setState(state);
     }
 
-    getCellState(x,y) {
-        return this.cellList[x + this.size * y].cellState;
+    getCellState(x, y) {
+        return this.cellList[x + this.size * y].getState();
     }
 
-    getCellText(x,y) {
+    getCellText(x, y) {
         return this.cellList[x + this.size * y].text;
     }
 
-    getCell(x,y) {
+    getCell(x, y) {
         return this.cellList[x + this.size * y];
     }
-    
+
 }
 
-export { Game,Cell };
+export { Game, Cell };

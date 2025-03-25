@@ -26,7 +26,7 @@ class Sudoku extends Game {
                 this.correctCellList.push(new Cell(
                     this.canvas, this.context,
                     this.boxSize, this.offset,
-                    this.data.task[width][height],
+                    this.data.grid[width][height],
                     width, height,
                     "blue", this.textColor
                 ));
@@ -46,18 +46,29 @@ class Sudoku extends Game {
         }
     }
 
-    checkIfCorrect(key) {
-        if (key == "Enter") {
-            if(this.compareGrids()) {
-                console.log("Sudoku is correctly Finished");
-            } else {
-                console.log("There is an error in the sudoku");
-            }
+    resetGame() {
+        this.correctCellList = [];
+        this.cellList = [];
+        this.canvasFather = document.getElementById("playsudoku");
+        this.initGame(fetchManager, fetchManager.gameTypes.Sudoku);
+    }
+
+    checkIfCorrect() {
+        if (this.compareGrids()) {
+            alert("Sudoku is correctly Finished");
+        } else {
+            alert("There is an error in the sudoku");
         }
+
     }
 
     compareGrids() {
-        this.cellList.every((element, index) => element.text === this.correctCellList[index].text);
+        for(let index = 0; index < this.cellList.length; index++) {
+            if(this.cellList[index].text != this.correctCellList[index].text) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
@@ -67,4 +78,4 @@ document.addEventListener(
         sudoku.updateInput(kd.key);
     });
 
-
+export { sudoku }
