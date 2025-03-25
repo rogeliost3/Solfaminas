@@ -201,7 +201,7 @@ class Game {
     }
 
     getCellState(x, y) {
-        return this.cellList[x + this.size * y].cellState;
+        return this.cellList[x + this.size * y].getState();
     }
 
     getCellText(x, y) {

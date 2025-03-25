@@ -23,8 +23,6 @@ class Minesweeper extends Game {
         this.cellList = [];
         this.canvasFather = document.getElementById("playminesweeper");
         this.initGame(fetchManager, fetchManager.gameTypes.Minesweeper);
-        this.revealNeightborCells(this.startx, this.starty);
-        this.renderGrid();
     }
 
     initBoard() {
