@@ -16,7 +16,10 @@ main();
 //FUNCIONAMIENTO DE LA PARTE DEL SUDOKU
 layer.sudoku.addEventListener('click', (e) => {
     layer.showLayer(layer.sudokuDifficulty);
-    layer.optionsSudoku.removeChild(layer.difficulty);
+    if(layer.difficulty) {
+        layer.optionsSudoku.removeChild(layer.difficulty);
+    }
+    
 });
 layer.sudokueasy.addEventListener('click', (e) => {
     layer.showLayer(layer.sudokuLayer);
@@ -53,7 +56,9 @@ layer.checkSudoku.addEventListener('click',(e)=> {
 //FUNCIONAMIENTO DE LA PARTE DEL MINESWEEPER
 layer.minesweeper.addEventListener('click', (e) => {
     layer.showLayer(layer.minesweeperDifficulty);
-    layer.optionsMinesweeper.removeChild(layer.difficulty); 
+    if(layer.difficulty) {
+        layer.optionsMinesweeper.removeChild(layer.difficulty); 
+    }
 });
 
 layer.mineeasy.addEventListener('click', (e) => {
