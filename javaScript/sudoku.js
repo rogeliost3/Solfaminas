@@ -65,9 +65,6 @@ class Sudoku extends Game {
     compareGrids() {
         for(let index = 0; index < this.cellList.length; index++) {
             if(this.cellList[index].text != this.correctCellList[index].text) {
-                console.log(index);
-                console.log(this.cellList[index].text );
-                console.log(this.correctCellList[index].text );
                 return false;
             }
         }

@@ -45,8 +45,5 @@ class Fetch {
 }
 
 let fetchManager = new Fetch();
-/*fetchManager.getGameData(fetchManager.gameTypes.Minesweeper).then((data)=>{
-    console.log(data);
-});*/
 
 export {fetchManager}
