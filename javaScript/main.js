@@ -42,6 +42,7 @@ layer.sudokuhard.addEventListener('click', (e) => {
 
 layer.finishSudoku.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
+    sudoku.resetGame();
 });
 layer.checkSudoku.addEventListener('click',(e)=> {
     sudoku.checkIfCorrect();
