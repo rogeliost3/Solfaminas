@@ -1,5 +1,6 @@
 import{Layer} from "./layerClass.js";
-import{sudoku} from "./sudoku.js"
+import{sudoku} from "./sudoku.js";
+import{minesweeper} from "./minesweeper.js";
 
 const layer = new Layer(); 
 let gameChoosed = "";
@@ -78,6 +79,7 @@ layer.minehard.addEventListener('click', (e) => {
 });
 layer.finishMinesweeper.addEventListener('click', (e) => {
     layer.showLayer(layer.replayLayer);
+    minesweeper.resetGame();
 });
 layer.checkMinesweeper.addEventListener('click',(e)=> {
     minesweeper.checkIfCorrect();
